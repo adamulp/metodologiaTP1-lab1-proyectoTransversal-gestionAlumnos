@@ -22,10 +22,16 @@ public class Conexion {
 
 	public Conexion() {
 		if (connection == null){
-                    Class.forName("org.mariadb.jdbc.Driver");
-                    connection = DriverManager.getConnection(URL + DB +
+                    try {
+                        Class.forName("org.mariadb.jdbc.Driver");
+                        connection = DriverManager.getConnection(URL + DB
                                 + "?useLegacyDatetimeCode=false&serverTimezone=UTC"
-				+ "&user=" + USUARIO + "&password=" + PASSWORD);
+                                        + "&user=" + USUARIO + "&password=" + PASSWORD);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (ClassNotFoundException ex) {
+                        Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
+                    }
 
 			}
 		}
