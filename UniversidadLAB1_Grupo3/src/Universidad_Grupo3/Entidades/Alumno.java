@@ -14,6 +14,7 @@ public class Alumno {
     private String nombre;
     private LocalDate fechaNac;
     private boolean activo;
+    private int dni;
 
     public Alumno() {
     }
@@ -30,6 +31,10 @@ public class Alumno {
         return idAlumno;
     }
 
+    public int getDni() {
+        return dni;
+    } 
+    
     public String getApellido() {
         return apellido;
     }
@@ -65,6 +70,15 @@ public class Alumno {
     public void setActivo(boolean activo) {
         this.activo = activo;
     }
+
+      
+    
+    
+    public void setDni(int dni) {
+        this.dni = dni;
+    }
+    
+    
 
     @Override
     public String toString() {
