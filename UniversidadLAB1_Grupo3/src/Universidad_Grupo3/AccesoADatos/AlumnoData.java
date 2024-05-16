@@ -21,8 +21,10 @@ public class AlumnoData {
     }
 
     public void guardarAlumno(Alumno alumno) {
-        String sql = "INSERT INTO alumno (dni, apellido, nombre, fechaNacimiento,"
-                + " estado) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO alumno (dni, apellido, nombre, fecha,"
+                + " estado) "
+                
+                + "VALUES (?, ?, ?, ?, ?)";
         try {
             PreparedStatement ps = con.prepareStatement(sql,
                     Statement.RETURN_GENERATED_KEYS);
@@ -36,12 +38,15 @@ public class AlumnoData {
             ResultSet rs = ps.getGeneratedKeys();
             if (rs.next()) {
                 alumno.setIdAlumno(rs.getInt("idAlumno"));
-                JOptionPane.showMessageDialog(null, "Alumno añadido con exito.");
+                JOptionPane.showMessageDialog(null,
+                        "Alumno añadido con exito.");
             }
 
             ps.close();
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Error al acceder a la tabla Alumno" + ex.getMessage());
+            JOptionPane.showMessageDialog(null,
+                    "Error al acceder a la tabla Alumno "
+                    + ex.getMessage());
         }
     }
 
