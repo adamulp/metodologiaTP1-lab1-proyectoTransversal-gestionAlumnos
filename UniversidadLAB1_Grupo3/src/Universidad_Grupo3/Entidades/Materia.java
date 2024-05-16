@@ -22,6 +22,12 @@ public class Materia {
         this.activo = activo;
     }
 
+    public Materia(String nombre, int anioMateria, boolean activo) {
+        this.nombre = nombre;
+        this.anioMateria = anioMateria;
+        this.activo = activo;
+    }
+    
     public int getIdMateria() {
         return idMateria;
     }
