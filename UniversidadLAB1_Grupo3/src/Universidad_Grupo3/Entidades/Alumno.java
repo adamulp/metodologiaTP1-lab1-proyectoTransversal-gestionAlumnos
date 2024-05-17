@@ -34,6 +34,11 @@ public class Alumno {
         this.fechaNac = fechaNac;
         this.activo = activo;
     }
+    
+    public Alumno(String apellido, String nombre, LocalDate fechaNac, boolean activo, int dni) {
+        this(apellido, nombre, fechaNac, activo);
+        this.dni = dni;
+    }
 
     
     
