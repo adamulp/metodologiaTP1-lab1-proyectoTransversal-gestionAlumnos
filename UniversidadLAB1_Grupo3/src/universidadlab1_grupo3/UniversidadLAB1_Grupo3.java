@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
- */
+
 package universidadlab1_grupo3;
 
 import Universidad_Grupo3.AccesoADatos.*;
@@ -23,15 +20,15 @@ public class UniversidadLAB1_Grupo3 {
         AlumnoData ad = new AlumnoData();
         LocalDate fecha =  LocalDate.of(2003,02,04);
         
-        Alumno alu = new Alumno(5, "Allendez","Alexis",fecha,true);
+        Alumno alu = new Alumno( "Allendez","Alexis",fecha,true);
        
        ad.guardarAlumno(alu);
-      Alumno alu2 = ad.buscarAlumno(5);
+//      Alumno alu2 = ad.buscarAlumno(5);
       
    
-        if (alu2 == null) {
-                System.out.println(alu2);
-        }
+//        if (alu2 == null) {
+//                System.out.println(alu2);
+//        }
     }
     
 }

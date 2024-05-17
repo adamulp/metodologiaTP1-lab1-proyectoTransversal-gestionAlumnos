@@ -21,7 +21,7 @@ public class AlumnoData {
     }
 
     public void guardarAlumno(Alumno alumno) {
-        String sql = "INSERT INTO alumno (dni, apellido, nombre, fecha,"
+        String sql = "INSERT INTO alumno (dni, apellido, nombre, fechaNacimiento,"
                 + " estado) "
                 
                 + "VALUES (?, ?, ?, ?, ?)";
@@ -37,7 +37,7 @@ public class AlumnoData {
 
             ResultSet rs = ps.getGeneratedKeys();
             if (rs.next()) {
-                alumno.setIdAlumno(rs.getInt("idAlumno"));
+                alumno.setIdAlumno(rs.getInt(1));
                 JOptionPane.showMessageDialog(null,
                         "Alumno añadido con exito.");
             }
@@ -45,7 +45,7 @@ public class AlumnoData {
             ps.close();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null,
-                    "Error al acceder a la tabla Alumno "
+                    "Error al acceder a la tabla Alumno. Mensaje SQLException: "
                     + ex.getMessage());
         }
     }

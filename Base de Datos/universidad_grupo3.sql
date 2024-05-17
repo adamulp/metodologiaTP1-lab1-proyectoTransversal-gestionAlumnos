@@ -2,8 +2,8 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Servidor: 127.0.0.1
--- Tiempo de generación: 15-05-2024 a las 22:37:21
+-- Servidor: localhost
+-- Tiempo de generación: 17-05-2024 a las 20:17:58
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -29,13 +29,15 @@ USE `universidad_grupo3`;
 -- Estructura de tabla para la tabla `alumno`
 --
 
-CREATE TABLE `alumno` (
-  `idAlumno` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `alumno` (
+  `idAlumno` int(11) NOT NULL AUTO_INCREMENT,
   `dni` int(11) NOT NULL,
   `apellido` varchar(100) NOT NULL,
   `nombre` varchar(100) NOT NULL,
-  `fecha` date NOT NULL,
-  `estado` tinyint(1) NOT NULL
+  `fechaNacimiento` date NOT NULL,
+  `estado` tinyint(1) NOT NULL,
+  PRIMARY KEY (`idAlumno`),
+  UNIQUE KEY `dni` (`dni`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -44,11 +46,14 @@ CREATE TABLE `alumno` (
 -- Estructura de tabla para la tabla `inscripcion`
 --
 
-CREATE TABLE `inscripcion` (
+CREATE TABLE IF NOT EXISTS `inscripcion` (
   `idInscripto` int(11) NOT NULL,
   `nota` int(11) NOT NULL,
   `idAlumno` int(11) NOT NULL,
-  `idMateria` int(11) NOT NULL
+  `idMateria` int(11) NOT NULL,
+  PRIMARY KEY (`idInscripto`),
+  UNIQUE KEY `idAlumno` (`idAlumno`,`idMateria`),
+  KEY `idMateria` (`idMateria`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -57,38 +62,14 @@ CREATE TABLE `inscripcion` (
 -- Estructura de tabla para la tabla `materia`
 --
 
-CREATE TABLE `materia` (
+CREATE TABLE IF NOT EXISTS `materia` (
   `idMateria` int(11) NOT NULL,
   `nombre` varchar(100) NOT NULL,
   `año` int(11) NOT NULL,
-  `estado` tinyint(1) NOT NULL
+  `estado` tinyint(1) NOT NULL,
+  PRIMARY KEY (`idMateria`),
+  UNIQUE KEY `nombre` (`nombre`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Índices para tablas volcadas
---
-
---
--- Indices de la tabla `alumno`
---
-ALTER TABLE `alumno`
-  ADD PRIMARY KEY (`idAlumno`),
-  ADD UNIQUE KEY `dni` (`dni`);
-
---
--- Indices de la tabla `inscripcion`
---
-ALTER TABLE `inscripcion`
-  ADD PRIMARY KEY (`idInscripto`),
-  ADD UNIQUE KEY `idAlumno` (`idAlumno`,`idMateria`),
-  ADD KEY `idMateria` (`idMateria`);
-
---
--- Indices de la tabla `materia`
---
-ALTER TABLE `materia`
-  ADD PRIMARY KEY (`idMateria`),
-  ADD UNIQUE KEY `nombre` (`nombre`);
 
 --
 -- Restricciones para tablas volcadas
