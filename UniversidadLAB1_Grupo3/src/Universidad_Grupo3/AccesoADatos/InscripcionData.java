@@ -21,11 +21,16 @@ import javax.swing.JOptionPane;
 public class InscripcionData {
     
     private Connection con = null;
+    private MateriaData matData;
+    private AlumnoData aluData;
 
     public InscripcionData() {
         con = Conexion.getConexion();
+        MateriaData matData = new MateriaData();
+        AlumnoData aluData = new AlumnoData();
     }
-    
+
+   
 /*
     CREATE TABLE IF NOT EXISTS `inscripcion` (
   `idInscripto` int(11) NOT NULL,
@@ -46,13 +51,17 @@ public class InscripcionData {
             ps = con.prepareStatement(sql,
                     Statement.RETURN_GENERATED_KEYS);
             // ps.setInt, ps.setString, ps.setDate, ps.setBoolean, etc.
+            ps.setInt(1, (int)insc.getNota());
+            ps.setInt(2, insc.getAlumno().getIdAlumno());
+            ps.setInt(3, insc.getMateria().getIdMateria());
             
-            ps.executeUpdate();
+            
             
             ResultSet rs = ps.getGeneratedKeys();
-
             if (rs.next()) {
-                
+                insc.setIdInscripcion(rs.getInt(1));
+                JOptionPane.showMessageDialog(null, 
+                        "Inscripcion guardada con exito. ");
             }else {
                 JOptionPane.showMessageDialog(null, "rs.next()==false ");
                 ps.close();
@@ -162,8 +171,8 @@ idMateria                   estado
 //                + "     WHERE idAlumno = ? "
 //                + ");";
 //        PreparedStatement ps = null;
-        MateriaData md = new MateriaData();
-        List<Materia> materiasNOcursadas = md.listarMaterias();
+//        MateriaData matData = new MateriaData();
+        List<Materia> materiasNOcursadas = matData.listarMaterias();
         List<Materia> materiasCursadas = obtenerMateriasCursadas(id);
         materiasNOcursadas.removeAll(materiasCursadas);
 
@@ -185,7 +194,7 @@ idMateria                   estado
             
             int fila = ps.executeUpdate();
             if (fila == 1) {
-                JOptionPane.showMessageDialog(null, " Se eliminó coso ");
+                JOptionPane.showMessageDialog(null, " Se eliminó el coso ");
             }else {
                 JOptionPane.showMessageDialog(null, "fila != 1 ");
                 ps.close();
@@ -213,7 +222,7 @@ idMateria                   estado
             if (exito == 1) {
                 JOptionPane.showMessageDialog(null, "Modificado Exitosamente.");
             } else {
-                JOptionPane.showMessageDialog(null, "No se pudo modificar coso");
+                JOptionPane.showMessageDialog(null, "No se pudo modificar el coso");
             }
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error " + ex.getMessage());
