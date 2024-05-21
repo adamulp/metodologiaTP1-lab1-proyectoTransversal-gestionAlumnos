@@ -8,8 +8,13 @@ package Universidad_Grupo3.AccesoADatos;
 
 import Universidad_Grupo3.AccesoADatos.Conexion;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import Universidad_Grupo3.Entidades.Materia;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 public class MateriaData {
     
@@ -33,7 +38,25 @@ UNIQUE KEY `nombre` (`nombre`)
     public void guardarMatera(Materia materia){
         String sql = "INSERT INTO materia (nombre, año, estado) "
                 + " VALUES (?, ?, ?)";
-        
+        PreparedStatement ps = null;
+        try {
+            ps = con.prepareStatement(sql,
+                    Statement.RETURN_GENERATED_KEYS);
+            // ps.setInt, ps.setString, ps.setDate, ps.setBoolean, etc.
+            
+            ps.executeUpdate();
+            
+            ResultSet rs = ps.getGeneratedKeys();
+            
+            if (rs.next()) {
+                
+            }else {
+                JOptionPane.showMessageDialog(null, "rs.next()==false ");
+                ps.close();
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error " + ex.getMessage());
+        }
     }
     
     public Materia buscarMateria(int id){
@@ -42,6 +65,24 @@ UNIQUE KEY `nombre` (`nombre`)
                 + "idMateria, nombre, año, "
                 + "FROM materia"
                 + "WHERE idMateria = ? AND estado = 1";
+        PreparedStatement ps = null;
+        try {
+            ps = con.prepareStatement(sql,
+                    Statement.RETURN_GENERATED_KEYS);
+  
+            ResultSet rs = ps.executeQuery();
+              
+            if (rs.next()) {
+                
+            }else {
+                JOptionPane.showMessageDialog(null, "rs.next()==false ");
+                ps.close();
+            }
+            ps.close();
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error " + ex.getMessage());
+        }
         
         return null;
     }
@@ -53,7 +94,21 @@ UNIQUE KEY `nombre` (`nombre`)
                 + " nombre = ? , "
                 + " año = ?  "
                 + " WHERE idMateria =  ?";
-
+        PreparedStatement ps = null;
+        try {
+            ps = con.prepareStatement(sql,
+                    Statement.RETURN_GENERATED_KEYS);
+            // ps.setInt, ps.setString, ps.setDate, ps.setBoolean, etc.
+            
+            int exito = ps.executeUpdate();
+            if (exito == 1) {
+                JOptionPane.showMessageDialog(null, "Modificado Exitosamente.");
+            } else {
+                JOptionPane.showMessageDialog(null, "No se pudo modificar coso");
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error " + ex.getMessage());
+        }
         
     }
     
@@ -62,11 +117,42 @@ UNIQUE KEY `nombre` (`nombre`)
                 + " SET "
                 + " estado = 0 "
                 + " WHERE idMateria = ?";
+        PreparedStatement ps = null;
+        try {
+            ps = con.prepareStatement(sql,
+                    Statement.RETURN_GENERATED_KEYS);
+            // ps.setInt, ps.setString, ps.setDate, ps.setBoolean, etc.
+            
+            int fila = ps.executeUpdate();
+            if (fila == 1) {
+                JOptionPane.showMessageDialog(null, " Se eliminó coso ");
+            }else {
+                JOptionPane.showMessageDialog(null, "fila != 1 ");
+                ps.close();
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error " + ex.getMessage());
+        }
         
     }
     
     public List<Materia> listarMaterias(){
         String sql = "SELECT * FROM materia WHERE estado = 1 ";
+        PreparedStatement ps = null;
+        try {
+            ps = con.prepareStatement(sql,
+                    Statement.RETURN_GENERATED_KEYS);
+  
+            ResultSet rs = ps.executeQuery();
+              
+            while(rs.next()){
+             // rs.getInt, rs.getString, rs.getDate, etc.
+           }
+            ps.close();
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error " + ex.getMessage());
+        }
         
         return null;
     }
