@@ -13,6 +13,7 @@ import Universidad_Grupo3.Entidades.Materia;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 
@@ -56,7 +57,7 @@ UNIQUE KEY `nombre` (`nombre`)
                 JOptionPane.showMessageDialog(null,
                             "Materia guardada con exito. ");
             }else {
-                JOptionPane.showMessageDialog(null, "rs.next()==false ");
+                JOptionPane.showMessageDialog(null, " Error con guardar el coso ");
                 ps.close();
             }
         } catch (SQLException ex) {
@@ -65,22 +66,28 @@ UNIQUE KEY `nombre` (`nombre`)
     }
     
     public Materia buscarMateria(int id){
+        
         Materia materia = null;
         String sql = "SELECT "
                 + "idMateria, nombre, año, "
                 + "FROM materia"
                 + "WHERE idMateria = ? AND estado = 1";
         PreparedStatement ps = null;
+        
         try {
-            ps = con.prepareStatement(sql,
-                    Statement.RETURN_GENERATED_KEYS);
+            ps = con.prepareStatement(sql);
+            
+            ps.setInt(1, id);
   
             ResultSet rs = ps.executeQuery();
               
             if (rs.next()) {
-                
+                materia.setIdMateria(id);
+                materia.setNombre(rs.getString("nombre"));
+                materia.setAnioMateria(rs.getInt("año"));
+                materia.setActivo(rs.getBoolean("estado"));
             }else {
-                JOptionPane.showMessageDialog(null, "rs.next()==false ");
+                JOptionPane.showMessageDialog(null, "Error al buscar la materia. ");
                 ps.close();
             }
             ps.close();
@@ -89,21 +96,22 @@ UNIQUE KEY `nombre` (`nombre`)
             JOptionPane.showMessageDialog(null, "Error " + ex.getMessage());
         }
         
-        return null;
+        return materia;
     }
     
     public void modificarMateria(Materia materia){
         String sql = "UPDATE materia "
                 + " SET "
-                + " idMateria = ? ,"
                 + " nombre = ? , "
                 + " año = ?  "
                 + " WHERE idMateria =  ?";
         PreparedStatement ps = null;
         try {
-            ps = con.prepareStatement(sql,
-                    Statement.RETURN_GENERATED_KEYS);
+            ps = con.prepareStatement(sql);
             // ps.setInt, ps.setString, ps.setDate, ps.setBoolean, etc.
+            ps.setString(1, materia.getNombre());
+            ps.setInt(2, materia.getAnioMateria());
+            ps.setInt(3, materia.getIdMateria());
             
             int exito = ps.executeUpdate();
             if (exito == 1) {
@@ -124,15 +132,14 @@ UNIQUE KEY `nombre` (`nombre`)
                 + " WHERE idMateria = ?";
         PreparedStatement ps = null;
         try {
-            ps = con.prepareStatement(sql,
-                    Statement.RETURN_GENERATED_KEYS);
+            ps = con.prepareStatement(sql);
             // ps.setInt, ps.setString, ps.setDate, ps.setBoolean, etc.
-            
+            ps.setInt(1, id);
             int fila = ps.executeUpdate();
             if (fila == 1) {
                 JOptionPane.showMessageDialog(null, " Se eliminó el coso ");
             }else {
-                JOptionPane.showMessageDialog(null, "fila != 1 ");
+                JOptionPane.showMessageDialog(null, "No se pudo eliminar nada");
                 ps.close();
             }
         } catch (SQLException ex) {
@@ -144,14 +151,19 @@ UNIQUE KEY `nombre` (`nombre`)
     public List<Materia> listarMaterias(){
         String sql = "SELECT * FROM materia WHERE estado = 1 ";
         PreparedStatement ps = null;
+        List<Materia> materias = new ArrayList<>();
         try {
-            ps = con.prepareStatement(sql,
-                    Statement.RETURN_GENERATED_KEYS);
+            ps = con.prepareStatement(sql);
   
             ResultSet rs = ps.executeQuery();
               
             while(rs.next()){
-             // rs.getInt, rs.getString, rs.getDate, etc.
+                Materia materia = new Materia();
+                materia.setIdMateria(rs.getInt("idMateria"));
+                materia.setNombre(rs.getString("nombre"));
+                materia.setAnioMateria(rs.getInt("año"));
+                materia.setActivo(rs.getBoolean("estado"));
+                materias.add(materia);
            }
             ps.close();
 
