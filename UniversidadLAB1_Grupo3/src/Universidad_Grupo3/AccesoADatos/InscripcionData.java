@@ -10,6 +10,7 @@ import java.sql.Connection;
 import Universidad_Grupo3.Entidades.Inscripcion;
 import Universidad_Grupo3.Entidades.Materia;
 import Universidad_Grupo3.Entidades.Alumno;
+import java.util.ArrayList;
 import java.util.List;
 
 public class InscripcionData {
@@ -53,39 +54,93 @@ public class InscripcionData {
     }
     
     public List<Materia> obtenerMateriasCursadas(int id){
-        String sql = "SELECT * FROM inscripcion WHERE estado = 1 "
-                + " AND idAlumno = ?";
+        String sql = "SELECT "
+                + " materia.idMateria, materia.nombre, año "
+                + " FROM inscripcion "
+                + " JOIN ON ( inscripcion.idMateria = materia.idMateria )"
+                + " WHERE estado = 1 "
+                + " AND idAlumno = ? ";
         
         return null;
     }
     
+/*
+inscripcion                 materia
+-----------                 ------
+idInscripto                 idMateria
+nota                        nombre
+idAlumno                    año
+idMateria                   estado
+                            
+                            
+
+*/
+    
     public List<Materia> obtenerMateriasNOCursadas(int id){
-        String sql = "SELECT * FROM inscripcion WHERE estado = 1 "
-                + " AND idAlumno = ?";
-        
-        return null;
+//        String sql = "SELECT "
+//                + " materia.idMateria, materia.nombre, año "
+//                + " FROM inscripcion "
+//                + " JOIN ON ( inscripcion.idMateria = materia.idMateria )"
+//                + " WHERE estado = 1 "
+//                + " AND idAlumno != ? ";
+
+//        String sql = " SELECT "
+//                + " materia.idMateria, materia.nombre, año "
+//                + " FROM materia "
+//                + " WHERE idMateria NOT IN ( "
+//                + "     SELECT idMateria "
+//                + "     FROM inscripcion "
+//                + "     WHERE idAlumno = ? "
+//                + ");";
+        MateriaData md = new MateriaData();
+        List<Materia> materiasNOcursadas = md.listarMaterias();
+        List<Materia> materiasCursadas = obtenerMateriasCursadas(id);
+        materiasNOcursadas.removeAll(materiasCursadas);
+
+        return materiasNOcursadas;
     }
     
     public void borrarInscripcionMateriaAlumno(int idAlumno, int idMateria){
-        String sql = "UPDATE materia "
-                + " SET "
-                + " estado = 0 "
+//        String sql = "UPDATE materia "
+//                + " SET "
+//                + " estado = 0 "
+        String sql = "DELETE FROM materia "              
                 + " WHERE idAlumno = ? "
                 + " AND idMateria = ? ";
         
     }
+    
+
     
     public void actualizarNota(int idAlumno, int idMateria, double nota){
         String sql = "UPDATE materia "
                 + " SET "
-                + " estado = 0 "
+                + " nota = ? "
                 + " WHERE idAlumno = ? "
                 + " AND idMateria = ? ";
         
     }
     
+/*
+inscripcion                 alumno
+-----------                 ------
+idInscripto                 idAlumno
+nota                        dni
+idAlumno                    apellido
+idMateria                   nombre
+                            fechaNacimiento
+                            estado
+
+*/
+    
     public List<Alumno> obtenerAlumnosXMateria(int idMateria){
-        String sql = "SELECT * FROM inscripcion WHERE estado = 1 ";
+//        String sql = "SELECT alumno.* "
+        String sql = "SELECT "
+                + " alumno.idAlumno, dni, apellido, nombre, fechaNacimiento"        
+                + " FROM inscripcion "
+                + " JOIN alumno ON ( inscripcion.idAlumno = alumno.idAlumno ) "
+                + " WHERE alumno.estado = 1"
+                + "AND idMateria = ?";
         
         
         return null;
@@ -93,6 +148,7 @@ public class InscripcionData {
     
     
 }
+
 
 /*
 CREATE DATABASE IF NOT EXISTS `universidad_grupo3` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
