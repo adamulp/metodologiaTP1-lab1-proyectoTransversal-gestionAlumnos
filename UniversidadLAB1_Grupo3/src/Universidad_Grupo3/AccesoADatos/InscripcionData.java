@@ -7,11 +7,16 @@ package Universidad_Grupo3.AccesoADatos;
 
 import Universidad_Grupo3.AccesoADatos.Conexion;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import Universidad_Grupo3.Entidades.Inscripcion;
 import Universidad_Grupo3.Entidades.Materia;
 import Universidad_Grupo3.Entidades.Alumno;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 public class InscripcionData {
     
@@ -36,12 +41,46 @@ public class InscripcionData {
     public void guardarInscripcion(Inscripcion insc){
         String sql = "INSERT INTO inscripcion (nota, idAlumno, idMateria) "
                 + "VALUES (?, ?, ?)";
+        PreparedStatement ps = null;
+        try {
+            ps = con.prepareStatement(sql,
+                    Statement.RETURN_GENERATED_KEYS);
+            // ps.setInt, ps.setString, ps.setDate, ps.setBoolean, etc.
+            
+            ps.executeUpdate();
+            
+            ResultSet rs = ps.getGeneratedKeys();
+
+            if (rs.next()) {
+                
+            }else {
+                JOptionPane.showMessageDialog(null, "rs.next()==false ");
+                ps.close();
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error " + ex.getMessage());
+        }
 
         
     }
     
     public List<Inscripcion> obtenerInscripciones(){
         String sql = "SELECT * FROM inscripcion WHERE estado = 1 ";
+        PreparedStatement ps = null;
+        try {
+            ps = con.prepareStatement(sql,
+                    Statement.RETURN_GENERATED_KEYS);
+  
+            ResultSet rs = ps.executeQuery();
+              
+            while(rs.next()){
+             // rs.getInt, rs.getString, rs.getDate, etc.
+           }
+            ps.close();
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error " + ex.getMessage());
+        }
         
         return null;
     }
@@ -49,6 +88,21 @@ public class InscripcionData {
     public List<Inscripcion> obtenerInscripcionesPorAlumno(int id){
         String sql = "SELECT * FROM inscripcion WHERE estado = 1 "
                 + " AND idAlumno = ?";
+        PreparedStatement ps = null;
+        try {
+            ps = con.prepareStatement(sql,
+                    Statement.RETURN_GENERATED_KEYS);
+  
+            ResultSet rs = ps.executeQuery();
+              
+            while(rs.next()){
+             // rs.getInt, rs.getString, rs.getDate, etc.
+           }
+            ps.close();
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error " + ex.getMessage());
+        }
          
         return null;
     }
@@ -60,6 +114,21 @@ public class InscripcionData {
                 + " JOIN ON ( inscripcion.idMateria = materia.idMateria )"
                 + " WHERE estado = 1 "
                 + " AND idAlumno = ? ";
+        PreparedStatement ps = null;
+        try {
+            ps = con.prepareStatement(sql,
+                    Statement.RETURN_GENERATED_KEYS);
+  
+            ResultSet rs = ps.executeQuery();
+              
+            while(rs.next()){
+             // rs.getInt, rs.getString, rs.getDate, etc.
+           }
+            ps.close();
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error " + ex.getMessage());
+        }
         
         return null;
     }
@@ -92,6 +161,7 @@ idMateria                   estado
 //                + "     FROM inscripcion "
 //                + "     WHERE idAlumno = ? "
 //                + ");";
+//        PreparedStatement ps = null;
         MateriaData md = new MateriaData();
         List<Materia> materiasNOcursadas = md.listarMaterias();
         List<Materia> materiasCursadas = obtenerMateriasCursadas(id);
@@ -107,7 +177,22 @@ idMateria                   estado
         String sql = "DELETE FROM materia "              
                 + " WHERE idAlumno = ? "
                 + " AND idMateria = ? ";
-        
+        PreparedStatement ps = null;
+        try {
+            ps = con.prepareStatement(sql,
+                    Statement.RETURN_GENERATED_KEYS);
+            // ps.setInt, ps.setString, ps.setDate, ps.setBoolean, etc.
+            
+            int fila = ps.executeUpdate();
+            if (fila == 1) {
+                JOptionPane.showMessageDialog(null, " Se eliminó coso ");
+            }else {
+                JOptionPane.showMessageDialog(null, "fila != 1 ");
+                ps.close();
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error " + ex.getMessage());
+        }
     }
     
 
@@ -118,7 +203,21 @@ idMateria                   estado
                 + " nota = ? "
                 + " WHERE idAlumno = ? "
                 + " AND idMateria = ? ";
-        
+        PreparedStatement ps = null;
+        try {
+            ps = con.prepareStatement(sql,
+                    Statement.RETURN_GENERATED_KEYS);
+            // ps.setInt, ps.setString, ps.setDate, ps.setBoolean, etc.
+            
+            int exito = ps.executeUpdate();
+            if (exito == 1) {
+                JOptionPane.showMessageDialog(null, "Modificado Exitosamente.");
+            } else {
+                JOptionPane.showMessageDialog(null, "No se pudo modificar coso");
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error " + ex.getMessage());
+        }
     }
     
 /*
@@ -141,7 +240,21 @@ idMateria                   nombre
                 + " JOIN alumno ON ( inscripcion.idAlumno = alumno.idAlumno ) "
                 + " WHERE alumno.estado = 1"
                 + "AND idMateria = ?";
-        
+        PreparedStatement ps = null;
+        try {
+            ps = con.prepareStatement(sql,
+                    Statement.RETURN_GENERATED_KEYS);
+  
+            ResultSet rs = ps.executeQuery();
+              
+            while(rs.next()){
+             // rs.getInt, rs.getString, rs.getDate, etc.
+           }
+            ps.close();
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error " + ex.getMessage());
+        }
         
         return null;
     }
