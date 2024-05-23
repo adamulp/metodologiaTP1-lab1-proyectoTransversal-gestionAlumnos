@@ -69,7 +69,7 @@ UNIQUE KEY `nombre` (`nombre`)
 
         Materia materia = null;
         String sql = "SELECT "
-                + "idMateria, nombre, año "
+                + "* "
                 + "FROM materia "
                 + "WHERE idMateria = ? AND estado = 1";
         PreparedStatement ps = null;
@@ -82,12 +82,12 @@ UNIQUE KEY `nombre` (`nombre`)
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
-                if (materia != null) {
+                    materia = new Materia();
                     materia.setIdMateria(id);
                     materia.setNombre(rs.getString("nombre"));
                     materia.setAnioMateria(rs.getInt("año"));
                     materia.setActivo(rs.getBoolean("estado"));
-                }
+                
             } else {
                 JOptionPane.showMessageDialog(null, "Error al buscar la materia. ");
                 ps.close();
@@ -95,7 +95,7 @@ UNIQUE KEY `nombre` (`nombre`)
             ps.close();
 
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Error " + ex.getMessage());
+            JOptionPane.showMessageDialog(null, "Error buscando " + ex.getMessage());
         }
 
         return materia;
