@@ -25,16 +25,17 @@ public class UniversidadLAB1_Grupo3 {
         Materia m3 = new Materia("Comprension de texto",2,true);
         List<Materia> listaMaterias = new ArrayList<>();
         
+        
 
         md1.guardarMateria(m1);
 
         m2 = md1.buscarMateria(m1.getIdMateria());
         System.out.println(m2);
         
-        m1.setNombre("Programacio-2");
+        m1.setNombre("IA");
         md1.modificarMateria(m1);
         
-         m2 = md1.buscarMateria(m1.getIdMateria());
+        m2 = md1.buscarMateria(m1.getIdMateria());
         System.out.println(m2);
         
         md1.guardarMateria(m3);
@@ -50,6 +51,112 @@ public class UniversidadLAB1_Grupo3 {
         for (Materia listaMateria : listaMaterias) {
             System.out.println(listaMateria);
         }
+        
+        InscripcionData id1 = new InscripcionData();
+        
+        LocalDate fechaAlexis = LocalDate.of(2004, 12, 8);
+        Alumno alexis = new Alumno("Allendez", "Alexis", fechaAlexis, true);
+        Inscripcion inscripcionAlexis = new Inscripcion();
+        inscripcionAlexis.setAlumno(alexis);
+        inscripcionAlexis.setMateria(m3);
+        
+        LocalDate fechaEnzo = LocalDate.of(1997, 01, 6);
+        Alumno enzo = new Alumno("Casalegno", "Enzo", 
+                fechaEnzo, true, 23523);
+        Inscripcion inscripcionEnzo = new Inscripcion();
+        inscripcionEnzo.setAlumno(enzo);
+        inscripcionEnzo.setMateria(m3);
+        
+        
+        
+        LocalDate fechaNico = LocalDate.of(2002, 03, 8);
+        Alumno nico = new Alumno("Hollmann", "Nicolas", 
+                fechaEnzo, true, 2154);
+        Inscripcion inscripcionNico1 = new Inscripcion();
+        Inscripcion inscripcionNico2 = new Inscripcion();
+        inscripcionNico1.setAlumno(nico);
+        inscripcionNico2.setAlumno(nico);
+        inscripcionNico2.setNota(10);
+        inscripcionNico1.setMateria(m1);
+        inscripcionNico2.setMateria(m3);
+        
+        
+        id1.guardarInscripcion(inscripcionAlexis);
+        id1.guardarInscripcion(inscripcionEnzo);
+        id1.guardarInscripcion(inscripcionNico1);
+        id1.guardarInscripcion(inscripcionNico2);
+        
+        List<Inscripcion> inscripciones = new ArrayList<>();
+        inscripciones = id1.obtenerInscripciones();
+        System.out.println("-----------------------------------");
+        System.out.println("Inscripciones para todos!");
+        System.out.println("-----------------------------------");
+        for(Inscripcion inscripcion: inscripciones){
+            System.out.println(inscripcion);
+        }
+        
+        List<Inscripcion> inscripcionesNico = new ArrayList<>();
+        inscripcionesNico = id1.obtenerInscripcionesPorAlumno(nico.getIdAlumno());
+        System.out.println("-----------------------------------");
+        System.out.println("Las inscripciones de Nico");
+        System.out.println("-----------------------------------");
+        for(Inscripcion inscripcion: inscripcionesNico){
+            System.out.println(inscripcion);
+        }
+        
+        Materia ciberSeguridad = new Materia("Ciberseguridaad",
+                1, true);
+        md1.guardarMateria(ciberSeguridad);
+        
+        List<Materia> materiasCursadasNico = new ArrayList<>();
+        List<Materia> materiasNoCursadasNico = new ArrayList<>();
+        materiasCursadasNico = id1.obtenerMateriasCursadas(nico.getIdAlumno());
+        materiasNoCursadasNico = id1.obtenerMateriasNOCursadas(nico.getIdAlumno());
+        
+        System.out.println("----------------------------------------------------");
+        System.out.println("Materias que está cursando Nico (por nombre y todo):");
+        System.out.println("----------------------------------------------------");
+        for(Materia materia: materiasCursadasNico){
+            System.out.println(materia);
+        }
+        System.out.println("----------------------------------------------------");
+        System.out.println("Materias que no está cursando Nico (por nombre):");
+        System.out.println("----------------------------------------------------");
+        for(Materia materia: materiasNoCursadasNico){
+            System.out.println(materia);
+        }
+        
+        id1.borrarInscripcionMateriaAlumno(nico.getIdAlumno(),
+                ciberSeguridad.getIdMateria());
+        System.out.println("----------------------------------------------------");
+        System.out.println("Materias que está cursando Nico (por nombre y todo):");
+        System.out.println("----------------------------------------------------");
+        for(Materia materia: materiasCursadasNico){
+            System.out.println(materia);
+        }
+        
+        id1.actualizarNota(nico.getIdAlumno(),
+                m3.getIdMateria(), 9);
+        System.out.println("----------------------------------------------------");
+        System.out.println("Hubo un error y resulta que Nico no saco un 10...");
+        System.out.println("Historial academico queda así ahora: ");
+        System.out.println("----------------------------------------------------");
+        for(Materia materia: materiasCursadasNico){
+            System.out.println(materia);
+        }
+        
+        List<Alumno> alumnosM3 = new ArrayList<>();
+        alumnosM3 = id1.obtenerAlumnosXMateria(m3.getIdMateria());
+        System.out.println("-------------------------------------------------");
+        System.out.println("Gente que está cursando " + m3.getNombre());
+        System.out.println("-------------------------------------------------");
+        for(Alumno alumno: alumnosM3){
+            System.out.println(alumno);
+        }
+        
+        
+        
+        
         
         
 //        AlumnoData ad = new AlumnoData();
