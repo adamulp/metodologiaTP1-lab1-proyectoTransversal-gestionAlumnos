@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS `alumno` (
 --
 
 CREATE TABLE IF NOT EXISTS `inscripcion` (
-  `idInscripto` int(11) NOT NULL,
+  `idInscripto` int(11) NOT NULL AUTO_INCREMENT,
   `nota` int(11) NOT NULL,
   `idAlumno` int(11) NOT NULL,
   `idMateria` int(11) NOT NULL,
@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS `inscripcion` (
 --
 
 CREATE TABLE IF NOT EXISTS `materia` (
-  `idMateria` int(11) NOT NULL,
+  `idMateria` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(100) NOT NULL,
   `año` int(11) NOT NULL,
   `estado` tinyint(1) NOT NULL,
