@@ -25,8 +25,8 @@ public class InscripcionData {
 
     public InscripcionData() {
         con = Conexion.getConexion();
-        MateriaData matData = new MateriaData();
-        AlumnoData aluData = new AlumnoData();
+        this.matData = new MateriaData();
+        this.aluData = new AlumnoData();
     }
 
     /*
@@ -51,6 +51,8 @@ public class InscripcionData {
             ps.setInt(1, (int) insc.getNota());
             ps.setInt(2, insc.getAlumno().getIdAlumno());
             ps.setInt(3, insc.getMateria().getIdMateria());
+            
+            ps.executeUpdate();
 
             ResultSet rs = ps.getGeneratedKeys();
             if (rs.next()) {
@@ -58,7 +60,7 @@ public class InscripcionData {
                 JOptionPane.showMessageDialog(null,
                         "Inscripcion guardada con exito. ");
             } else {
-                JOptionPane.showMessageDialog(null, "rs.next()==false ");
+                JOptionPane.showMessageDialog(null, "No se pudo guardar el coso (la inscripción)");
                 ps.close();
             }
         } catch (SQLException ex) {
@@ -68,7 +70,7 @@ public class InscripcionData {
     }
 
     public List<Inscripcion> obtenerInscripciones() {
-        String sql = "SELECT * FROM inscripcion WHERE estado = 1 ";
+        String sql = "SELECT * FROM inscripcion ";
         PreparedStatement ps = null;
         List<Inscripcion> inscripciones = new ArrayList<>();
         try {
@@ -78,8 +80,11 @@ public class InscripcionData {
             while (rs.next()) {
                 // rs.getInt, rs.getString, rs.getDate, etc.
                 Inscripcion inscripcion = new Inscripcion();
-                inscripcion.setIdInscripcion(rs.getInt("idInscripcion"));
+                inscripcion.setIdInscripcion(rs.getInt("idInscripto"));
+//                System.out.println("idInscripto=" + inscripcion.getIdInscripcion());
+                
                 inscripcion.setNota(rs.getInt("nota"));
+//                System.out.println("nota=");
                 inscripcion.setAlumno(aluData.buscarAlumno(rs.getInt("idAlumno")));
                 inscripcion.setMateria(matData.buscarMateria(rs.getInt("idMateria")));
                 inscripciones.add(inscripcion);
@@ -90,11 +95,11 @@ public class InscripcionData {
             JOptionPane.showMessageDialog(null, "Error " + ex.getMessage());
         }
 
-        return null;
+        return inscripciones;
     }
 
     public List<Inscripcion> obtenerInscripcionesPorAlumno(int id) {
-        String sql = "SELECT * FROM inscripcion WHERE estado = 1 "
+        String sql = "SELECT * FROM inscripcion"
                 + " AND idAlumno = ?";
         PreparedStatement ps = null;
         List<Inscripcion> inscripciones = new ArrayList<>();
@@ -106,7 +111,7 @@ public class InscripcionData {
             while (rs.next()) {
                 // rs.getInt, rs.getString, rs.getDate, etc.
                 Inscripcion inscripcion = new Inscripcion();
-                inscripcion.setIdInscripcion(rs.getInt("idInscripcion"));
+                inscripcion.setIdInscripcion(rs.getInt("idInscripto"));
                 inscripcion.setNota(rs.getInt("nota"));
                 inscripcion.setAlumno(aluData.buscarAlumno(id));
                 inscripcion.setMateria(matData.buscarMateria(rs.getInt("idMateria")));
@@ -118,7 +123,7 @@ public class InscripcionData {
             JOptionPane.showMessageDialog(null, "Error " + ex.getMessage());
         }
 
-        return null;
+        return inscripciones;
     }
 
     public List<Materia> obtenerMateriasCursadas(int id) {
@@ -126,8 +131,8 @@ public class InscripcionData {
                 + " materia.idMateria, materia.nombre, año "
                 + " FROM inscripcion "
                 + " JOIN ON ( inscripcion.idMateria = materia.idMateria )"
-                + " WHERE estado = 1 "
-                + " AND idAlumno = ? ";
+                + " WHERE "
+                + " idAlumno = ? ";
         PreparedStatement ps = null;
         List<Materia> materias = new ArrayList<>();
 
@@ -142,7 +147,7 @@ public class InscripcionData {
                 materia.setIdMateria(rs.getInt("idMateria"));
                 materia.setNombre(rs.getString("nombre"));
                 materia.setAnioMateria(rs.getInt("Anio"));
-                materia.setActivo(rs.getBoolean("activo"));
+                materia.setActivo(true);
                 materias.add(materia);
             }
             ps.close();
@@ -151,7 +156,7 @@ public class InscripcionData {
             JOptionPane.showMessageDialog(null, "Error " + ex.getMessage());
         }
 
-        return null;
+        return materias;
     }
 
     /*
