@@ -174,7 +174,7 @@ UNIQUE KEY `nombre` (`nombre`)
             JOptionPane.showMessageDialog(null, "Error " + ex.getMessage());
         }
         
-        return null;
+        return materias;
     }
 
 

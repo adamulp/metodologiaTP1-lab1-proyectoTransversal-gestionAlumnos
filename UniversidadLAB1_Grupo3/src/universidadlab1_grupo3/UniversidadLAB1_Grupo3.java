@@ -265,15 +265,17 @@ public class UniversidadLAB1_Grupo3 {
         for(Materia materia: materiasCursadasNico){
             System.out.println(materia);
         }
-//        
-//        List<Alumno> alumnosM3 = new ArrayList<>();
-//        alumnosM3 = id1.obtenerAlumnosXMateria(metodologia.getIdMateria());
-//        System.out.println("-------------------------------------------------");
-//        System.out.println("Gente que está cursando " + metodologia.getNombre());
-//        System.out.println("-------------------------------------------------");
-//        for(Alumno alumno: alumnosM3){
-//            System.out.println(alumno);
-//        }
+        
+        
+        
+        List<Alumno> alumnosM3 = new ArrayList<>();
+        alumnosM3 = id1.obtenerAlumnosXMateria(metodologia.getIdMateria());
+        System.out.println("-------------------------------------------------");
+        System.out.println("Gente que está cursando " + metodologia.getNombre());
+        System.out.println("-------------------------------------------------");
+        for(Alumno alumno: alumnosM3){
+            System.out.println(alumno);
+        }
         
 
     }

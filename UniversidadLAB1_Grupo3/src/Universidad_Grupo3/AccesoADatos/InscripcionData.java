@@ -14,6 +14,7 @@ import Universidad_Grupo3.Entidades.Inscripcion;
 import Universidad_Grupo3.Entidades.Materia;
 import Universidad_Grupo3.Entidades.Alumno;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import javax.swing.JOptionPane;
 
@@ -129,17 +130,17 @@ public class InscripcionData {
 
     public List<Materia> obtenerMateriasCursadas(int id) {
         String sql = "SELECT "
-                + " materia.idMateria, materia.nombre, año "
+                + "materia.idMateria, materia.nombre, año "
                 + " FROM inscripcion "
-                + " JOIN ON ( inscripcion.idMateria = materia.idMateria )"
+                + " JOIN materia ON ( inscripcion.idMateria = materia.idMateria )"
                 + " WHERE "
-                + " idAlumno = ? ";
+                + "inscripcion.idAlumno = ? ";
         PreparedStatement ps = null;
         List<Materia> materias = new ArrayList<>();
 
         try {
             ps = con.prepareStatement(sql);
-
+            ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -147,7 +148,7 @@ public class InscripcionData {
                 Materia materia = new Materia();
                 materia.setIdMateria(rs.getInt("idMateria"));
                 materia.setNombre(rs.getString("nombre"));
-                materia.setAnioMateria(rs.getInt("Anio"));
+                materia.setAnioMateria(rs.getInt("año"));
                 materia.setActivo(true);
                 materias.add(materia);
             }
@@ -190,7 +191,11 @@ idMateria                   estado
 //        PreparedStatement ps = null;
 //        MateriaData matData = new MateriaData();
         List<Materia> materiasNOcursadas = matData.listarMaterias();
+      for(Materia materia : materiasNOcursadas){
+          System.out.println(materia);
+      }
         List<Materia> materiasCursadas = obtenerMateriasCursadas(id);
+        
         materiasNOcursadas.removeAll(materiasCursadas);
 
         return materiasNOcursadas;
@@ -265,7 +270,7 @@ idMateria                   nombre
                 + " FROM inscripcion "
                 + " JOIN alumno ON ( inscripcion.idAlumno = alumno.idAlumno ) "
                 + " WHERE alumno.estado = 1"
-                + "AND idMateria = ?";
+                + " AND idMateria = ?";
         PreparedStatement ps = null;
         try {
             ps = con.prepareStatement(sql);
@@ -290,7 +295,7 @@ idMateria                   nombre
             JOptionPane.showMessageDialog(null, "Error " + ex.getMessage());
         }
 
-        return null;
+        return alumnos;
     }
 
 }
