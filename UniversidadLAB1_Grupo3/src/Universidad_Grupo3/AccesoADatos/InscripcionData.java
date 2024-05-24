@@ -100,12 +100,13 @@ public class InscripcionData {
 
     public List<Inscripcion> obtenerInscripcionesPorAlumno(int id) {
         String sql = "SELECT * FROM inscripcion"
-                + " AND idAlumno = ?";
+                + " WHERE idAlumno = ?";
         PreparedStatement ps = null;
         List<Inscripcion> inscripciones = new ArrayList<>();
 
         try {
             ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
