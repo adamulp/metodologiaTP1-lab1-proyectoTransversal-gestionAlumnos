@@ -64,38 +64,40 @@ UNIQUE KEY `nombre` (`nombre`)
             JOptionPane.showMessageDialog(null, "Error " + ex.getMessage());
         }
     }
-    
-    public Materia buscarMateria(int id){
-        
+
+    public Materia buscarMateria(int id) {
+
         Materia materia = null;
         String sql = "SELECT "
-                + "idMateria, nombre, año, "
-                + "FROM materia"
+                + "* "
+                + "FROM materia "
                 + "WHERE idMateria = ? AND estado = 1";
         PreparedStatement ps = null;
-        
+
         try {
             ps = con.prepareStatement(sql);
-            
+
             ps.setInt(1, id);
-  
+
             ResultSet rs = ps.executeQuery();
-              
+
             if (rs.next()) {
-                materia.setIdMateria(id);
-                materia.setNombre(rs.getString("nombre"));
-                materia.setAnioMateria(rs.getInt("año"));
-                materia.setActivo(rs.getBoolean("estado"));
-            }else {
+                    materia = new Materia();
+                    materia.setIdMateria(id);
+                    materia.setNombre(rs.getString("nombre"));
+                    materia.setAnioMateria(rs.getInt("año"));
+                    materia.setActivo(rs.getBoolean("estado"));
+                
+            } else {
                 JOptionPane.showMessageDialog(null, "Error al buscar la materia. ");
                 ps.close();
             }
             ps.close();
 
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Error " + ex.getMessage());
+            JOptionPane.showMessageDialog(null, "Error buscando " + ex.getMessage());
         }
-        
+
         return materia;
     }
     
@@ -149,7 +151,8 @@ UNIQUE KEY `nombre` (`nombre`)
     }
     
     public List<Materia> listarMaterias(){
-        String sql = "SELECT * FROM materia WHERE estado = 1 ";
+        String sql = "SELECT * FROM materia  "
+                + "WHERE estado = 1 ";
         PreparedStatement ps = null;
         List<Materia> materias = new ArrayList<>();
         try {
@@ -171,8 +174,11 @@ UNIQUE KEY `nombre` (`nombre`)
             JOptionPane.showMessageDialog(null, "Error " + ex.getMessage());
         }
         
-        return null;
+        return materias;
     }
+
+
+    
     
     
 }
