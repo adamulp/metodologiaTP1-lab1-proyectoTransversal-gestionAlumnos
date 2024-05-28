@@ -59,16 +59,22 @@ public class Alumnos extends javax.swing.JInternalFrame {
         jlFecha.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jlFecha.setText("Fecha de Nacimiento:");
 
+        jcActivo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jcActivo.setText(" Activo.");
 
+        jbBuscar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jbBuscar.setText("Buscar");
 
+        jbNuevo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jbNuevo.setText("Nuevo");
 
+        jbEliminar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jbEliminar.setText("Eliminar");
 
+        jbGuardar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jbGuardar.setText("Guardar");
 
+        jbSalir.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jbSalir.setText("Salir");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -76,7 +82,7 @@ public class Alumnos extends javax.swing.JInternalFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(159, Short.MAX_VALUE)
+                .addContainerGap(146, Short.MAX_VALUE)
                 .addComponent(jbNuevo)
                 .addGap(68, 68, 68)
                 .addComponent(jbEliminar)
@@ -104,7 +110,7 @@ public class Alumnos extends javax.swing.JInternalFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(351, 351, 351)
+                .addGap(368, 368, 368)
                 .addComponent(jlAlumno)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
@@ -151,7 +157,7 @@ public class Alumnos extends javax.swing.JInternalFrame {
                     .addComponent(jtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(32, 32, 32)
                 .addComponent(jcActivo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jlFecha)
                     .addComponent(jdFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))

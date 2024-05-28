@@ -26,15 +26,128 @@ public class Incripciones extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
+        jlFormulario = new javax.swing.JLabel();
+        jlSeleccion = new javax.swing.JLabel();
+        jlListado = new javax.swing.JLabel();
+        jcIncriptas = new javax.swing.JCheckBox();
+        jcNoImcriptas = new javax.swing.JCheckBox();
+        jcAlumno = new javax.swing.JComboBox<>();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jtaMateria = new javax.swing.JTable();
+        jbIncribir = new javax.swing.JButton();
+        jbAnular = new javax.swing.JButton();
+        jbSalir = new javax.swing.JButton();
+
+        jlFormulario.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        jlFormulario.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlFormulario.setText("Formulario de Inscripcion");
+
+        jlSeleccion.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jlSeleccion.setText("Seleccione un alumno:");
+
+        jlListado.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        jlListado.setText("Listado de Materias");
+
+        jcIncriptas.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jcIncriptas.setText("Materias Incriptas");
+
+        jcNoImcriptas.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jcNoImcriptas.setText("Materias no Incriptas");
+
+        jcAlumno.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+        jtaMateria.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "ID", "Nombre", "Año"
+            }
+        ));
+        jScrollPane1.setViewportView(jtaMateria);
+
+        jbIncribir.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jbIncribir.setText("Inscribir");
+
+        jbAnular.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jbAnular.setText("Anular Inscripcion");
+
+        jbSalir.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jbSalir.setText("Salir");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(259, 259, 259)
+                        .addComponent(jlFormulario))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(285, 285, 285)
+                        .addComponent(jlListado)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                        .addGap(94, 94, 94)
+                        .addComponent(jlSeleccion)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jcAlumno, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                        .addGap(138, 138, 138)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 505, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jcIncriptas)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jcNoImcriptas))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jbIncribir)
+                                .addGap(106, 106, 106)
+                                .addComponent(jbAnular)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jbSalir)))))
+                .addGap(145, 145, 145))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addComponent(jlFormulario)
+                .addGap(37, 37, 37)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jlSeleccion)
+                    .addComponent(jcAlumno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(46, 46, 46)
+                .addComponent(jlListado)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jcNoImcriptas)
+                    .addComponent(jcIncriptas))
+                .addGap(30, 30, 30)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jbIncribir)
+                    .addComponent(jbAnular)
+                    .addComponent(jbSalir))
+                .addGap(61, 61, 61))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 394, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 274, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -42,5 +155,17 @@ public class Incripciones extends javax.swing.JInternalFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton jbAnular;
+    private javax.swing.JButton jbIncribir;
+    private javax.swing.JButton jbSalir;
+    private javax.swing.JComboBox<String> jcAlumno;
+    private javax.swing.JCheckBox jcIncriptas;
+    private javax.swing.JCheckBox jcNoImcriptas;
+    private javax.swing.JLabel jlFormulario;
+    private javax.swing.JLabel jlListado;
+    private javax.swing.JLabel jlSeleccion;
+    private javax.swing.JTable jtaMateria;
     // End of variables declaration//GEN-END:variables
 }
