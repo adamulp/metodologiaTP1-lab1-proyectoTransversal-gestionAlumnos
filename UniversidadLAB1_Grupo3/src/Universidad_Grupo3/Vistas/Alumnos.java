@@ -7,6 +7,7 @@ package Universidad_Grupo3.Vistas;
 /**
  *
  * @author Hollmann
+ * @adamrigg
  */
 public class Alumnos extends javax.swing.JInternalFrame {
 
