@@ -6,6 +6,8 @@ package Universidad_Grupo3.Vistas;
 
 import  Universidad_Grupo3.AccesoADatos.AlumnoData;
 import  Universidad_Grupo3.Entidades.Alumno;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import  java.util.Date;
 import  javax.swing.JOptionPane;
 
@@ -69,6 +71,24 @@ public class Alumnos extends javax.swing.JInternalFrame {
         jlFecha.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jlFecha.setText("Fecha de Nacimiento:");
 
+        jtDocumento.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtDocumentoKeyTyped(evt);
+            }
+        });
+
+        jtApellido.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtApellidoKeyTyped(evt);
+            }
+        });
+
+        jtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtNombreKeyTyped(evt);
+            }
+        });
+
         jcActivo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jcActivo.setText(" Activo.");
 
@@ -88,6 +108,11 @@ public class Alumnos extends javax.swing.JInternalFrame {
 
         jbGuardar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jbGuardar.setText("Guardar");
+        jbGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbGuardarActionPerformed(evt);
+            }
+        });
 
         jbSalir.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jbSalir.setText("Salir");
@@ -220,6 +245,64 @@ public class Alumnos extends javax.swing.JInternalFrame {
          Date date = Date.from(alumno.getFechaNac().atStartOfDay(java.time.ZoneId.systemDefault()).toInstant());
          jdFecha.setDate(date);
     }//GEN-LAST:event_jbBuscarActionPerformed
+
+    private void jbGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGuardarActionPerformed
+       AlumnoData alumnoData=new AlumnoData();
+        Alumno alu = new Alumno();
+        Date fechaSeleccionada = jdFecha.getDate();
+      
+        
+        
+
+        if (jtDocumento.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Debe ingresar un numero de documento");
+            return;
+        } else if (jtApellido.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Debe ingresar un Apellido");
+            return;
+        } else if (jtNombre.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Debe ingresar un nombre");
+
+        } else if (fechaSeleccionada == null) {
+            JOptionPane.showMessageDialog(null, "Debe ingresar una fecha");
+        } else {
+           fechaSeleccionada = jdFecha.getDate();
+            LocalDate FechaNacimiento = fechaSeleccionada.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            Integer dni = Integer.valueOf(jtDocumento.getText());
+            jcActivo.setSelected(isSelected);
+
+            alu.setDni(dni);
+            alu.setApellido(jtApellido.getText());
+            alu.setNombre(jtNombre.getText());
+            alu.setFechaNac(FechaNacimiento);
+            alu.setActivo(true);
+
+            alumnoData.guardarAlumno(alu);
+        }
+
+
+    }//GEN-LAST:event_jbGuardarActionPerformed
+
+    private void jtDocumentoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtDocumentoKeyTyped
+           char caracter = evt.getKeyChar();
+        if (!Character.isDigit(caracter)) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_jtDocumentoKeyTyped
+
+    private void jtApellidoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtApellidoKeyTyped
+         char caracter = evt.getKeyChar();
+        if (!Character.isAlphabetic(caracter)) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_jtApellidoKeyTyped
+
+    private void jtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtNombreKeyTyped
+        char caracter = evt.getKeyChar();
+        if (!Character.isAlphabetic(caracter)) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_jtNombreKeyTyped
 
     
 
