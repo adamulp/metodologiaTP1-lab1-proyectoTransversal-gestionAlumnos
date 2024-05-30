@@ -4,17 +4,27 @@
  */
 package Universidad_Grupo3.Vistas;
 
+import  Universidad_Grupo3.AccesoADatos.AlumnoData;
+import  Universidad_Grupo3.Entidades.Alumno;
+import  java.util.Date;
+import  javax.swing.JOptionPane;
+
+
 /**
  *
  * @author Hollmann
+ * @adamrigg
  */
 public class Alumnos extends javax.swing.JInternalFrame {
 
+    
+    private AlumnoData alumnodata;
     /**
      * Creates new form Alumnos
      */
     public Alumnos() {
         initComponents();
+        alumnodata = new AlumnoData();
     }
 
     /**
@@ -64,6 +74,11 @@ public class Alumnos extends javax.swing.JInternalFrame {
 
         jbBuscar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jbBuscar.setText("Buscar");
+        jbBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbBuscarActionPerformed(evt);
+            }
+        });
 
         jbNuevo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jbNuevo.setText("Nuevo");
@@ -182,6 +197,31 @@ public class Alumnos extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jbBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarActionPerformed
+        // TODO add your handling code here:
+        Alumno alumno = null;
+        Integer dni = Integer.valueOf(jtDocumento.getText());
+        if (dni == null){
+            JOptionPane.showMessageDialog(null, "El campo se encuentra vacío" );
+            return;
+        }
+            alumno = alumnodata.buscarAlumnoPorDni(dni);  
+            
+        if (alumno == null){
+            JOptionPane.showMessageDialog(null, "No se encuentra el alumno" );
+            return;
+        }
+         jtApellido.setText(alumno.getApellido());
+         jtNombre.setText(alumno.getNombre());
+         if (alumno.isActivo() == true){
+             jcActivo.setSelected(isSelected);
+         }
+         
+         Date date = Date.from(alumno.getFechaNac().atStartOfDay(java.time.ZoneId.systemDefault()).toInstant());
+         jdFecha.setDate(date);
+    }//GEN-LAST:event_jbBuscarActionPerformed
+
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;
