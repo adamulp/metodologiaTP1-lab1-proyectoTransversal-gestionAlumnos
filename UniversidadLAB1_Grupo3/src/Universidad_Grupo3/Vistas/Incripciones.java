@@ -39,6 +39,10 @@ public class Incripciones extends javax.swing.JInternalFrame {
         jbAnular = new javax.swing.JButton();
         jbSalir = new javax.swing.JButton();
 
+        setClosable(true);
+        setMaximizable(true);
+        setResizable(true);
+
         jlFormulario.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jlFormulario.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jlFormulario.setText("Formulario de Inscripcion");

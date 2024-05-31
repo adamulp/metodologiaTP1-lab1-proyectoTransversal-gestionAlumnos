@@ -34,6 +34,10 @@ public class Consultas extends javax.swing.JInternalFrame {
         jtaAlumno = new javax.swing.JTable();
         jbSalir = new javax.swing.JButton();
 
+        setClosable(true);
+        setMaximizable(true);
+        setResizable(true);
+
         jlTitulo.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jlTitulo.setText("Listado de Alumnos por Materia");
 
