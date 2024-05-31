@@ -4,6 +4,7 @@
  */
 package Universidad_Grupo3.Vistas;
 
+import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 
 /**
@@ -40,8 +41,11 @@ public class home extends javax.swing.JFrame {
         jmConsulta = new javax.swing.JMenu();
         jmiAlumnoMat = new javax.swing.JMenuItem();
         jmSalir = new javax.swing.JMenu();
+        jMSalir = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Sistema gestor de universidad");
+        setName("panelPrincipal"); // NOI18N
 
         javax.swing.GroupLayout escritorioLayout = new javax.swing.GroupLayout(escritorio);
         escritorio.setLayout(escritorioLayout);
@@ -74,6 +78,11 @@ public class home extends javax.swing.JFrame {
         jmMateria.setText("Materia");
 
         jmiFormularioMat.setText("Formulario de Materia");
+        jmiFormularioMat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiFormularioMatActionPerformed(evt);
+            }
+        });
         jmMateria.add(jmiFormularioMat);
 
         jMenuBar.add(jmMateria);
@@ -81,9 +90,19 @@ public class home extends javax.swing.JFrame {
         jmAdministracion.setText("Administración");
 
         jmiInscripciones.setText("Manejo de Inscripciones");
+        jmiInscripciones.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiInscripcionesActionPerformed(evt);
+            }
+        });
         jmAdministracion.add(jmiInscripciones);
 
         jmiNotas.setText("Manipulacion de notas");
+        jmiNotas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiNotasActionPerformed(evt);
+            }
+        });
         jmAdministracion.add(jmiNotas);
 
         jMenuBar.add(jmAdministracion);
@@ -91,11 +110,25 @@ public class home extends javax.swing.JFrame {
         jmConsulta.setText("Consultas");
 
         jmiAlumnoMat.setText("Alumno por Materia");
+        jmiAlumnoMat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiAlumnoMatActionPerformed(evt);
+            }
+        });
         jmConsulta.add(jmiAlumnoMat);
 
         jMenuBar.add(jmConsulta);
 
         jmSalir.setText("Salir");
+
+        jMSalir.setText("Salir");
+        jMSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMSalirActionPerformed(evt);
+            }
+        });
+        jmSalir.add(jMSalir);
+
         jMenuBar.add(jmSalir);
 
         setJMenuBar(jMenuBar);
@@ -131,6 +164,31 @@ public class home extends javax.swing.JFrame {
           Alumnos ventana = new Alumnos();
             dibujarVentana(ventana);
     }//GEN-LAST:event_jmiFormularioAlmActionPerformed
+
+    private void jmiFormularioMatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiFormularioMatActionPerformed
+        Materias m1 = new Materias();
+        dibujarVentana(m1);
+    }//GEN-LAST:event_jmiFormularioMatActionPerformed
+
+    private void jmiInscripcionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiInscripcionesActionPerformed
+        Incripciones n1 = new Incripciones();
+        dibujarVentana(n1);
+    }//GEN-LAST:event_jmiInscripcionesActionPerformed
+
+    private void jmiNotasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiNotasActionPerformed
+        Notas notas =  new Notas();
+        dibujarVentana(notas);
+    }//GEN-LAST:event_jmiNotasActionPerformed
+
+    private void jmiAlumnoMatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiAlumnoMatActionPerformed
+    Consultas c1 = new Consultas();
+        dibujarVentana(c1);
+    }//GEN-LAST:event_jmiAlumnoMatActionPerformed
+
+    private void jMSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMSalirActionPerformed
+         this.dispose();
+        System.exit(0);
+    }//GEN-LAST:event_jMSalirActionPerformed
 
     /**
      * @param args the command line arguments
@@ -169,6 +227,7 @@ public class home extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane escritorio;
+    private javax.swing.JMenuItem jMSalir;
     private javax.swing.JMenuBar jMenuBar;
     private javax.swing.JMenu jmAdministracion;
     private javax.swing.JMenu jmAlumno;
