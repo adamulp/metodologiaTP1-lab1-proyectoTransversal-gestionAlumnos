@@ -41,6 +41,10 @@ public class Materias extends javax.swing.JInternalFrame {
         jtAno = new javax.swing.JTextField();
         jbBuscar = new javax.swing.JButton();
 
+        setClosable(true);
+        setMaximizable(true);
+        setResizable(true);
+
         jlMateria.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jlMateria.setText("Materia");
 

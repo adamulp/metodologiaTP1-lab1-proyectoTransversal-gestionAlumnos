@@ -35,6 +35,10 @@ public class Notas extends javax.swing.JInternalFrame {
         jbGuardar = new javax.swing.JButton();
         jbSalir = new javax.swing.JButton();
 
+        setIconifiable(true);
+        setMaximizable(true);
+        setResizable(true);
+
         jlNotas.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jlNotas.setText("Carga de Notas");
 
