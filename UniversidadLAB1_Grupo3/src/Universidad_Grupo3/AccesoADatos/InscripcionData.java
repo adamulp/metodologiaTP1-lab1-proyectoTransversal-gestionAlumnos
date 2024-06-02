@@ -82,10 +82,7 @@ public class InscripcionData {
                 // rs.getInt, rs.getString, rs.getDate, etc.
                 Inscripcion inscripcion = new Inscripcion();
                 inscripcion.setIdInscripcion(rs.getInt("idInscripto"));
-//                System.out.println("idInscripto=" + inscripcion.getIdInscripcion());
-                
                 inscripcion.setNota(rs.getInt("nota"));
-//                System.out.println("nota=");
                 inscripcion.setAlumno(aluData.buscarAlumno(rs.getInt("idAlumno")));
                 inscripcion.setMateria(matData.buscarMateria(rs.getInt("idMateria")));
                 inscripciones.add(inscripcion);
@@ -173,38 +170,17 @@ idMateria                   estado
 
      */
     public List<Materia> obtenerMateriasNOCursadas(int id) {
-//        String sql = "SELECT "
-//                + " materia.idMateria, materia.nombre, año "
-//                + " FROM inscripcion "
-//                + " JOIN ON ( inscripcion.idMateria = materia.idMateria )"
-//                + " WHERE estado = 1 "
-//                + " AND idAlumno != ? ";
-
-//        String sql = " SELECT "
-//                + " materia.idMateria, materia.nombre, año "
-//                + " FROM materia "
-//                + " WHERE idMateria NOT IN ( "
-//                + "     SELECT idMateria "
-//                + "     FROM inscripcion "
-//                + "     WHERE idAlumno = ? "
-//                + ");";
-//        PreparedStatement ps = null;
-//        MateriaData matData = new MateriaData();
         List<Materia> materiasNOcursadas = matData.listarMaterias();
-      for(Materia materia : materiasNOcursadas){
-          System.out.println(materia);
-      }
+
         List<Materia> materiasCursadas = obtenerMateriasCursadas(id);
         
-        materiasNOcursadas.removeAll(materiasCursadas);
-
+        if(materiasNOcursadas.removeAll(materiasCursadas)){
+            System.out.println("Lista Cambiada!");
+        }
         return materiasNOcursadas;
     }
 
     public void borrarInscripcionMateriaAlumno(int idAlumno, int idMateria) {
-//        String sql = "UPDATE materia "
-//                + " SET "
-//                + " estado = 0 "
         String sql = "DELETE FROM materia "
                 + " WHERE idAlumno = ? "
                 + " AND idMateria = ? ";
