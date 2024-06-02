@@ -1,6 +1,8 @@
 
 package Universidad_Grupo3.Entidades;
 
+import java.util.Objects;
+
 /**
  *
  * @author Hollmann
@@ -65,6 +67,42 @@ public class Materia {
 
         return "Materia{" + "idMateria=" + idMateria + ", nombre=" + nombre + ", anioMateria=" + anioMateria + ", activo=" + activo + '}';
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 37 * hash + this.idMateria;
+        hash = 37 * hash + Objects.hashCode(this.nombre);
+        hash = 37 * hash + this.anioMateria;
+        hash = 37 * hash + (this.activo ? 1 : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Materia other = (Materia) obj;
+        if (this.idMateria != other.idMateria) {
+            return false;
+        }
+        if (this.anioMateria != other.anioMateria) {
+            return false;
+        }
+        if (this.activo != other.activo) {
+            return false;
+        }
+        return Objects.equals(this.nombre, other.nombre);
+    }
+    
+    
     
     
 }
