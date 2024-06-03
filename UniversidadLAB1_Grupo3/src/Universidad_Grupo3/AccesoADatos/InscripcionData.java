@@ -218,9 +218,7 @@ idMateria                   estado
             ps.setInt(3, idMateria);
 
             int exito = ps.executeUpdate();
-            if (exito == 1) {
-                JOptionPane.showMessageDialog(null, "Modificado Exitosamente.");
-            } else {
+            if (exito != 1) {
                 JOptionPane.showMessageDialog(null, "No se pudo modificar el coso");
             }
         } catch (SQLException ex) {

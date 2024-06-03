@@ -136,7 +136,9 @@ public class Consultas extends javax.swing.JInternalFrame {
 
     //Combobox
     private void jcMateriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcMateriaActionPerformed
-        // TODO add your handling code here:
+        if(jcMateria.getSelectedIndex() == -1){
+            return;
+        }
 
         InscripcionData inscripcionData = new InscripcionData();
         Materia materia = (Materia) jcMateria.getSelectedItem();

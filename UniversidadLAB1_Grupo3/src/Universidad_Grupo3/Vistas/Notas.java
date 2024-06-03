@@ -4,17 +4,28 @@
  */
 package Universidad_Grupo3.Vistas;
 
+import javax.swing.table.DefaultTableModel;
+import Universidad_Grupo3.Entidades.*;
+import Universidad_Grupo3.AccesoADatos.AlumnoData;
+import Universidad_Grupo3.AccesoADatos.InscripcionData;
+import Universidad_Grupo3.AccesoADatos.MateriaData;
+import java.util.List;
+import java.util.Vector;
+
 /**
  *
  * @author Hollmann
  */
 public class Notas extends javax.swing.JInternalFrame {
-
+    private DefaultTableModel modelo = new DefaultTableModel();
     /**
      * Creates new form Notas
      */
     public Notas() {
         initComponents();
+        llenarCombo();
+        limpiarCampo();
+        armarTabla();
     }
 
     /**
@@ -29,7 +40,7 @@ public class Notas extends javax.swing.JInternalFrame {
         jPanel1 = new javax.swing.JPanel();
         jlNotas = new javax.swing.JLabel();
         jlSeleccionar = new javax.swing.JLabel();
-        jcAlumnos = new javax.swing.JComboBox<>();
+        jcAlumno = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtaMateria = new javax.swing.JTable();
         jbGuardar = new javax.swing.JButton();
@@ -45,7 +56,12 @@ public class Notas extends javax.swing.JInternalFrame {
         jlSeleccionar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jlSeleccionar.setText("Seleccione un alumno:");
 
-        jcAlumnos.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jcAlumno.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jcAlumno.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcAlumnoActionPerformed(evt);
+            }
+        });
 
         jtaMateria.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -57,14 +73,32 @@ public class Notas extends javax.swing.JInternalFrame {
             new String [] {
                 "Código", "Nombre", "Nota"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(jtaMateria);
 
         jbGuardar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jbGuardar.setText("Guardar");
+        jbGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbGuardarActionPerformed(evt);
+            }
+        });
 
         jbSalir.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jbSalir.setText("Salir");
+        jbSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbSalirActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -84,7 +118,7 @@ public class Notas extends javax.swing.JInternalFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jlSeleccionar)
                         .addGap(136, 136, 136)
-                        .addComponent(jcAlumnos, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jcAlumno, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(162, 162, 162))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(80, Short.MAX_VALUE)
@@ -99,7 +133,7 @@ public class Notas extends javax.swing.JInternalFrame {
                 .addGap(45, 45, 45)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jlSeleccionar)
-                    .addComponent(jcAlumnos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jcAlumno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(66, 66, 66)
@@ -123,13 +157,139 @@ public class Notas extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jcAlumnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcAlumnoActionPerformed
+        if(jcAlumno.getSelectedIndex() == -1){
+            return;
+        }
+        Alumno alumno = (Alumno) jcAlumno.getSelectedItem();
+        llenarLista(alumno);
+        
+    }//GEN-LAST:event_jcAlumnoActionPerformed
+
+    private void jbSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalirActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jbSalirActionPerformed
+
+    private void jbGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGuardarActionPerformed
+        if(jcAlumno.getSelectedIndex() == -1){
+            return;
+        }
+        Alumno alumno = (Alumno) jcAlumno.getSelectedItem();
+        int idAlumno = alumno.getIdAlumno();
+        
+        if (jtaMateria.isEditing()) {
+            jtaMateria.getCellEditor().stopCellEditing();
+        }
+ 
+        int numFilas = modelo.getRowCount();
+        if(numFilas < 1){
+            return;
+        }
+        
+        InscripcionData inscripcionData = new InscripcionData();
+        MateriaData materiaData = new MateriaData();
+       
+        for(int i = numFilas -1; i >= 0; i--){
+            Integer idMateria = getCodigoTabla(i);
+            Double nota = getNotaTabla(i);            
+            inscripcionData.actualizarNota(idAlumno, idMateria, nota);
+         }
+        borrarLista();
+        llenarLista(alumno);
+    }//GEN-LAST:event_jbGuardarActionPerformed
+//-----------------------------METODOS-------------------------------------    
+    private void llenarCombo() {
+        Alumno jcItemNoSeleccionado = new Alumno();
+        jcItemNoSeleccionado.setIdAlumno(-1);
+        jcAlumno.addItem(jcItemNoSeleccionado);
+        jcAlumno.setSelectedItem(jcItemNoSeleccionado);
+
+        AlumnoData alumnoData = new AlumnoData();
+        List<Alumno> alumnos = alumnoData.listarAlumnos();
+
+        for (Alumno alumno : alumnos) {
+            jcAlumno.addItem(alumno);
+        }
+
+    }
+    
+    private void limpiarCampo() {
+        if (jcAlumno != null) {
+            jcAlumno.setSelectedIndex(-1);
+        }
+
+    }
+    
+    private void armarTabla() {
+        modelo.addColumn("Código");
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Nota");
+        jtaMateria.setModel(modelo);
+    }
+    
+    private void borrarLista() {
+        int filas = modelo.getRowCount() - 1;
+        for (int i = filas; i >= 0; i--) {
+            modelo.removeRow(i);
+        }
+        jtaMateria.repaint();
+    }
+    
+    private void llenarLista(Alumno alumno){
+        if(jcAlumno.getSelectedIndex() == -1){
+            return;
+        }
+        int idAlumno = alumno.getIdAlumno();
+        InscripcionData inscripcionData = new InscripcionData();
+        List<Inscripcion> inscripcionesAlumno = inscripcionData.
+                obtenerInscripcionesPorAlumno(idAlumno);
+        llenarLista(inscripcionesAlumno);
+    }
+    
+    private void llenarLista(List<Inscripcion> inscripciones) {
+        borrarLista();
+        System.out.println("llenarLista()");
+        for (Inscripcion inscripcion : inscripciones) {
+            System.out.println(inscripcion);
+            Vector<Object> renglon = new Vector<>();
+            renglon.add(inscripcion.getMateria().getIdMateria());
+            renglon.add(inscripcion.getMateria().getNombre());
+            renglon.add(inscripcion.getNota());
+
+            modelo.addRow(renglon);
+        }
+        jtaMateria.repaint();
+    }
+    
+        private Integer getCodigoTabla(int fila) {
+        Object val = jtaMateria.getValueAt(fila, 0);
+        if (val == null) {
+            return null;
+        }
+        if (val instanceof Integer) {
+            return (Integer) val;
+        }
+        return Integer.parseInt((String) val);
+    }
+
+    private Double getNotaTabla(int fila) {
+        Object val = jtaMateria.getValueAt(fila, 2);
+        if (val == null) {
+            return null;
+        }
+        if (val instanceof Double) {
+            return (Double) val;
+        }
+        
+        return Double.parseDouble((String) val);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton jbGuardar;
     private javax.swing.JButton jbSalir;
-    private javax.swing.JComboBox<String> jcAlumnos;
+    private javax.swing.JComboBox<Alumno> jcAlumno;
     private javax.swing.JLabel jlNotas;
     private javax.swing.JLabel jlSeleccionar;
     private javax.swing.JTable jtaMateria;
