@@ -216,7 +216,7 @@ public class Incripciones extends javax.swing.JInternalFrame {
         }
 
         Alumno alumno = (Alumno) jcAlumno.getSelectedItem();
-        System.out.println("alumno=" + alumno);
+//        System.out.println("alumno=" + alumno);
         if (alumno == null) {
             borrarLista();
             return;
@@ -236,7 +236,7 @@ public class Incripciones extends javax.swing.JInternalFrame {
             jbAnular.setEnabled(false);
         }
         Alumno alumno = (Alumno) jcAlumno.getSelectedItem();
-        System.out.println("alumno=" + alumno);
+//        System.out.println("alumno=" + alumno);
         if (alumno == null) {
             borrarLista();
             return;
@@ -249,37 +249,40 @@ public class Incripciones extends javax.swing.JInternalFrame {
 
     private void jbInscribirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbInscribirActionPerformed
         Alumno alumno = (Alumno) jcAlumno.getSelectedItem();
+        int idAlumno = alumno.getIdAlumno();
+        if(idAlumno == -1){
+            return;
+        }
+        
         InscripcionData inscripcionData = new InscripcionData();
-
-        int[] filas = jtaMateria.getSelectedRows();
-        if (filas.length > 0) {
-            List<Materia> materias = new ArrayList<Materia>();
-
-            for (int i = filas.length - 1; i >= 0; i--) {
-                Integer idMateria = getIdTabla(i);
-                String nombre = getNombreTabla(i);
-                Integer anio = getAnioTabla(i);
-
-                Materia materia = null;
-                if (idMateria != null
-                        && nombre != null
-                        && anio != null) {
-                    materia = new Materia(idMateria, nombre, anio, true);
-                }
-
-                if (materia != null) {
-                    materias.add(materia);
-                    Inscripcion inscripcion = new Inscripcion(alumno, materia, 0);
-                    inscripcionData.guardarInscripcion(inscripcion);
-                    modelo.removeRow(filas[i]);
-                }
+        Integer[] idMaterias = getSelectedIdMaterias();
+        MateriaData materiaData = new MateriaData();
+        
+        List<Materia> materias = new ArrayList<Materia>();
+        for(Integer idMateria : idMaterias){
+            System.out.println("idMateria=" + idMateria);
+            if(idMateria !=  null){
+                materias.add(materiaData.buscarMateria((int)idMateria));
             }
         }
+        
+        for(Materia materia: materias){
+            if(materia != null){
+                Inscripcion inscripcion = new Inscripcion(alumno, materia, 0);
+                inscripcionData.guardarInscripcion(inscripcion);
+            }
+        }
+        
+        borrarLista();
+        List<Materia> materiasNOCursadas = inscripcionData.obtenerMateriasNOCursadas(
+                idAlumno);
+        
+        llenarLista(materiasNOCursadas);
     }//GEN-LAST:event_jbInscribirActionPerformed
 
     private void jcAlumnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcAlumnoActionPerformed
         Alumno alumno = (Alumno) jcAlumno.getSelectedItem();
-        System.out.println("alumno=" + alumno);
+//        System.out.println("alumno=" + alumno);
         if (alumno == null) {
             borrarLista();
             if(jcAlumno.getSelectedIndex() != -1){
@@ -326,20 +329,22 @@ public class Incripciones extends javax.swing.JInternalFrame {
             return;
         }
         
+        Integer[] idMaterias = getSelectedIdMaterias();
         InscripcionData inscripcionData = new InscripcionData();
-
-        int[] filas = jtaMateria.getSelectedRows();
-        if (filas.length > 0) {
-            for (int i = filas.length - 1; i >= 0; i--) {
-                Integer idMateria = getIdTabla(i);
-
-                if (idMateria != null) {
-                    inscripcionData.borrarInscripcionMateriaAlumno(idAlumno,
+        
+        
+        for(Integer idMateria : idMaterias){
+            System.out.println("idMateria=" + idMateria);
+            if(idMateria != null){
+                inscripcionData.borrarInscripcionMateriaAlumno(idAlumno,
                                                                     idMateria);
-                    modelo.removeRow(filas[i]);
-                }
             }
         }
+        borrarLista();
+        List<Materia> materias = inscripcionData.obtenerMateriasCursadas(
+                idAlumno);
+        
+        llenarLista(materias);
     }//GEN-LAST:event_jbAnularActionPerformed
 
 //-----------------------------METODOS-------------------------------------    
@@ -375,9 +380,9 @@ public class Incripciones extends javax.swing.JInternalFrame {
 
     private void llenarLista(List<Materia> materias) {
         borrarLista();
-        System.out.println("llenarLista()");
+//        System.out.println("llenarLista()");
         for (Materia materia : materias) {
-            System.out.println(materia);
+//            System.out.println(materia);
             Vector<Object> renglon = new Vector<>();
             renglon.add(materia.getIdMateria());
             renglon.add(materia.getNombre());
@@ -427,6 +432,29 @@ public class Incripciones extends javax.swing.JInternalFrame {
             return (Integer) val;
         }
         return Integer.parseInt((String) val);
+    }
+    
+    private Integer[] getSelectedIdMaterias(){
+        int numFilas = modelo.getRowCount();
+        if(numFilas < 1){
+            return null;
+        }
+        int[] filasSeleccionadas = jtaMateria.getSelectedRows();
+        System.out.println("filasSelccionadas.length=" + filasSeleccionadas.length);
+        Integer[] idMaterias = new Integer[filasSeleccionadas.length];
+
+        for (int i = 0; i < filasSeleccionadas.length; i++) {
+            Object val = modelo.getValueAt(filasSeleccionadas[i], 0);
+            Integer idMateria = null;
+            if(val instanceof String){
+                idMateria = Integer.valueOf((String)val);
+            }else {
+                idMaterias[i] = (Integer) val;
+            }
+            
+        }
+
+        return idMaterias;
     }
 
 
