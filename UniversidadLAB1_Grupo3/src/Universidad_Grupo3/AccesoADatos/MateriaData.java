@@ -71,7 +71,7 @@ UNIQUE KEY `nombre` (`nombre`)
         String sql = "SELECT "
                 + "* "
                 + "FROM materia "
-                + "WHERE idMateria = ? AND estado = 1";
+                + "WHERE idMateria = ? ";
         PreparedStatement ps = null;
 
         try {
@@ -88,10 +88,8 @@ UNIQUE KEY `nombre` (`nombre`)
                     materia.setAnioMateria(rs.getInt("año"));
                     materia.setActivo(rs.getBoolean("estado"));
                 
-            } else {
-                JOptionPane.showMessageDialog(null, "Error al buscar la materia. ");
-                ps.close();
-            }
+            } 
+            
             ps.close();
 
         } catch (SQLException ex) {
@@ -139,9 +137,9 @@ UNIQUE KEY `nombre` (`nombre`)
             ps.setInt(1, id);
             int fila = ps.executeUpdate();
             if (fila == 1) {
-                JOptionPane.showMessageDialog(null, " Se eliminó el coso ");
+                JOptionPane.showMessageDialog(null, " Se eliminó la materia con éxito. ");
             }else {
-                JOptionPane.showMessageDialog(null, "No se pudo eliminar nada");
+                JOptionPane.showMessageDialog(null, "No se puede eliminar una materia que no fue buscada.");
                 ps.close();
             }
         } catch (SQLException ex) {
