@@ -181,7 +181,7 @@ idMateria                   estado
     }
 
     public void borrarInscripcionMateriaAlumno(int idAlumno, int idMateria) {
-        String sql = "DELETE FROM materia "
+        String sql = "DELETE FROM inscripcion "
                 + " WHERE idAlumno = ? "
                 + " AND idMateria = ? ";
         PreparedStatement ps = null;
