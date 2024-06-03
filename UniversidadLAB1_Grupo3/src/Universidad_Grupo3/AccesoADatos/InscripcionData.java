@@ -49,7 +49,7 @@ public class InscripcionData {
             ps = con.prepareStatement(sql,
                     Statement.RETURN_GENERATED_KEYS);
             // ps.setInt, ps.setString, ps.setDate, ps.setBoolean, etc.
-            ps.setInt(1, (int) insc.getNota());
+            ps.setDouble(1, insc.getNota());
             ps.setInt(2, insc.getAlumno().getIdAlumno());
             ps.setInt(3, insc.getMateria().getIdMateria());
             
@@ -82,7 +82,7 @@ public class InscripcionData {
                 // rs.getInt, rs.getString, rs.getDate, etc.
                 Inscripcion inscripcion = new Inscripcion();
                 inscripcion.setIdInscripcion(rs.getInt("idInscripto"));
-                inscripcion.setNota(rs.getInt("nota"));
+                inscripcion.setNota(rs.getDouble("nota"));
                 inscripcion.setAlumno(aluData.buscarAlumno(rs.getInt("idAlumno")));
                 inscripcion.setMateria(matData.buscarMateria(rs.getInt("idMateria")));
                 inscripciones.add(inscripcion);
@@ -111,7 +111,7 @@ public class InscripcionData {
                 // rs.getInt, rs.getString, rs.getDate, etc.
                 Inscripcion inscripcion = new Inscripcion();
                 inscripcion.setIdInscripcion(rs.getInt("idInscripto"));
-                inscripcion.setNota(rs.getInt("nota"));
+                inscripcion.setNota(rs.getDouble("nota"));
                 inscripcion.setAlumno(aluData.buscarAlumno(id));
                 inscripcion.setMateria(matData.buscarMateria(rs.getInt("idMateria")));
                 inscripciones.add(inscripcion);
@@ -181,7 +181,7 @@ idMateria                   estado
     }
 
     public void borrarInscripcionMateriaAlumno(int idAlumno, int idMateria) {
-        String sql = "DELETE FROM materia "
+        String sql = "DELETE FROM inscripcion "
                 + " WHERE idAlumno = ? "
                 + " AND idMateria = ? ";
         PreparedStatement ps = null;
@@ -213,14 +213,12 @@ idMateria                   estado
         try {
             ps = con.prepareStatement(sql);
             // ps.setInt, ps.setString, ps.setDate, ps.setBoolean, etc.
-            ps.setInt(1, (int) nota);
+            ps.setDouble(1, nota);
             ps.setInt(2, idAlumno);
             ps.setInt(3, idMateria);
 
             int exito = ps.executeUpdate();
-            if (exito == 1) {
-                JOptionPane.showMessageDialog(null, "Modificado Exitosamente.");
-            } else {
+            if (exito != 1) {
                 JOptionPane.showMessageDialog(null, "No se pudo modificar el coso");
             }
         } catch (SQLException ex) {

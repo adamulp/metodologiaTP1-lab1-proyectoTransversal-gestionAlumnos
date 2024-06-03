@@ -90,8 +90,8 @@
                   <EmptySpace min="-2" pref="59" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jlDocumento" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jtDocumento" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jbBuscar" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jtDocumento" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
