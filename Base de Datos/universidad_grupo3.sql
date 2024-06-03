@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS `alumno` (
 
 CREATE TABLE IF NOT EXISTS `inscripcion` (
   `idInscripto` int(11) NOT NULL AUTO_INCREMENT,
-  `nota` int(11) NOT NULL,
+  `nota` double NOT NULL,
   `idAlumno` int(11) NOT NULL,
   `idMateria` int(11) NOT NULL,
   PRIMARY KEY (`idInscripto`),
