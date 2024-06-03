@@ -70,7 +70,7 @@
                                   <Component id="jcNoInscriptas" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="jbIncribir" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jbInscribir" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="106" max="-2" attributes="0"/>
                                   <Component id="jbAnular" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="32767" attributes="0"/>
@@ -104,7 +104,7 @@
                   <Component id="jScrollPane1" min="-2" pref="148" max="-2" attributes="0"/>
                   <EmptySpace pref="49" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jbIncribir" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jbInscribir" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jbAnular" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jbSalir" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
@@ -203,16 +203,15 @@
             </Component>
           </SubComponents>
         </Container>
-        <Component class="javax.swing.JButton" name="jbIncribir">
+        <Component class="javax.swing.JButton" name="jbInscribir">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="14" style="0"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Inscribir"/>
-            <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbIncribirActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbInscribirActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="jbAnular">
@@ -221,8 +220,10 @@
               <Font name="Segoe UI" size="14" style="0"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Anular Inscripcion"/>
-            <Property name="enabled" type="boolean" value="false"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbAnularActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="jbSalir">
           <Properties>
@@ -231,6 +232,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Salir"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbSalirActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

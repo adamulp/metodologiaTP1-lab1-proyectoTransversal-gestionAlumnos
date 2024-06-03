@@ -19,8 +19,10 @@ import javax.swing.JOptionPane;
  * @author Hollmann
  */
 public class Incripciones extends javax.swing.JInternalFrame {
+
     private DefaultTableModel modelo = new DefaultTableModel();
 //---------------------------CONSTRUCTOR------------------------------------
+
     /*
      * Creates new form Incripciones
      */
@@ -30,6 +32,8 @@ public class Incripciones extends javax.swing.JInternalFrame {
         limpiarCampo();
         armarTabla();
         jcInscriptas.setSelected(true);
+        jbInscribir.setEnabled(false);
+        jbAnular.setEnabled(false);
     }
 
     /**
@@ -50,7 +54,7 @@ public class Incripciones extends javax.swing.JInternalFrame {
         jcAlumno = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtaMateria = new javax.swing.JTable();
-        jbIncribir = new javax.swing.JButton();
+        jbInscribir = new javax.swing.JButton();
         jbAnular = new javax.swing.JButton();
         jbSalir = new javax.swing.JButton();
 
@@ -105,21 +109,29 @@ public class Incripciones extends javax.swing.JInternalFrame {
         ));
         jScrollPane1.setViewportView(jtaMateria);
 
-        jbIncribir.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jbIncribir.setText("Inscribir");
-        jbIncribir.setEnabled(false);
-        jbIncribir.addActionListener(new java.awt.event.ActionListener() {
+        jbInscribir.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jbInscribir.setText("Inscribir");
+        jbInscribir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbIncribirActionPerformed(evt);
+                jbInscribirActionPerformed(evt);
             }
         });
 
         jbAnular.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jbAnular.setText("Anular Inscripcion");
-        jbAnular.setEnabled(false);
+        jbAnular.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbAnularActionPerformed(evt);
+            }
+        });
 
         jbSalir.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jbSalir.setText("Salir");
+        jbSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbSalirActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -150,7 +162,7 @@ public class Incripciones extends javax.swing.JInternalFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jcNoInscriptas))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jbIncribir)
+                                .addComponent(jbInscribir)
                                 .addGap(106, 106, 106)
                                 .addComponent(jbAnular)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -176,7 +188,7 @@ public class Incripciones extends javax.swing.JInternalFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jbIncribir)
+                    .addComponent(jbInscribir)
                     .addComponent(jbAnular)
                     .addComponent(jbSalir))
                 .addGap(61, 61, 61))
@@ -198,9 +210,14 @@ public class Incripciones extends javax.swing.JInternalFrame {
 
     private void jcInscriptasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcInscriptasActionPerformed
         jcNoInscriptas.setSelected(false);
+        if(jcAlumno.getSelectedIndex() != -1){
+            jbInscribir.setEnabled(false);
+            jbAnular.setEnabled(true);
+        }
+
         Alumno alumno = (Alumno) jcAlumno.getSelectedItem();
         System.out.println("alumno=" + alumno);
-        if(alumno == null){
+        if (alumno == null) {
             borrarLista();
             return;
         }
@@ -208,13 +225,19 @@ public class Incripciones extends javax.swing.JInternalFrame {
         InscripcionData inscripciones = new InscripcionData();
         List<Materia> materias = inscripciones.obtenerMateriasCursadas(idAlumno);
         llenarLista(materias);
+        
+        
     }//GEN-LAST:event_jcInscriptasActionPerformed
 
     private void jcNoInscriptasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcNoInscriptasActionPerformed
         jcInscriptas.setSelected(false);
+        if(jcAlumno.getSelectedIndex() != -1){
+            jbInscribir.setEnabled(true);
+            jbAnular.setEnabled(false);
+        }
         Alumno alumno = (Alumno) jcAlumno.getSelectedItem();
         System.out.println("alumno=" + alumno);
-        if(alumno == null){
+        if (alumno == null) {
             borrarLista();
             return;
         }
@@ -224,94 +247,194 @@ public class Incripciones extends javax.swing.JInternalFrame {
         llenarLista(materias);
     }//GEN-LAST:event_jcNoInscriptasActionPerformed
 
-    private void jbIncribirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbIncribirActionPerformed
+    private void jbInscribirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbInscribirActionPerformed
         Alumno alumno = (Alumno) jcAlumno.getSelectedItem();
+        InscripcionData inscripcionData = new InscripcionData();
 
-    }//GEN-LAST:event_jbIncribirActionPerformed
+        int[] filas = jtaMateria.getSelectedRows();
+        if (filas.length > 0) {
+            List<Materia> materias = new ArrayList<Materia>();
+
+            for (int i = filas.length - 1; i >= 0; i--) {
+                Integer idMateria = getIdTabla(i);
+                String nombre = getNombreTabla(i);
+                Integer anio = getAnioTabla(i);
+
+                Materia materia = null;
+                if (idMateria != null
+                        && nombre != null
+                        && anio != null) {
+                    materia = new Materia(idMateria, nombre, anio, true);
+                }
+
+                if (materia != null) {
+                    materias.add(materia);
+                    Inscripcion inscripcion = new Inscripcion(alumno, materia, 0);
+                    inscripcionData.guardarInscripcion(inscripcion);
+                    modelo.removeRow(filas[i]);
+                }
+            }
+        }
+    }//GEN-LAST:event_jbInscribirActionPerformed
 
     private void jcAlumnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcAlumnoActionPerformed
         Alumno alumno = (Alumno) jcAlumno.getSelectedItem();
         System.out.println("alumno=" + alumno);
-        if(alumno == null){
+        if (alumno == null) {
             borrarLista();
+            if(jcAlumno.getSelectedIndex() != -1){
+                jbInscribir.setEnabled(false);
+                jbAnular.setEnabled(false);
+            }
             return;
         }
+        
+        jcNoInscriptas.setSelected(false);
+        if(jcNoInscriptas.isSelected()){
+            jbInscribir.setEnabled(true);
+            jbAnular.setEnabled(false);
+        }
+        
+        if(jcInscriptas.isSelected()){
+            jbInscribir.setEnabled(false);
+            jbAnular.setEnabled(true);
+        }
+        
         int idAlumno = alumno.getIdAlumno();
         InscripcionData inscripciones = new InscripcionData();
-        
+
         List<Materia> materias = null;
-        if(jcInscriptas.isSelected()){
+        if (jcInscriptas.isSelected()) {
             materias = inscripciones.obtenerMateriasCursadas(idAlumno);
         }
-        if(!jcInscriptas.isSelected()){
+        if (!jcInscriptas.isSelected()) {
             materias = inscripciones.obtenerMateriasNOCursadas(idAlumno);
         }
-        
+
         llenarLista(materias);
 
     }//GEN-LAST:event_jcAlumnoActionPerformed
-    
+
+    private void jbSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalirActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jbSalirActionPerformed
+
+    private void jbAnularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAnularActionPerformed
+        Alumno alumno = (Alumno) jcAlumno.getSelectedItem();
+        int idAlumno = alumno.getIdAlumno();
+        if(idAlumno == -1){
+            return;
+        }
+        
+        InscripcionData inscripcionData = new InscripcionData();
+
+        int[] filas = jtaMateria.getSelectedRows();
+        if (filas.length > 0) {
+            for (int i = filas.length - 1; i >= 0; i--) {
+                Integer idMateria = getIdTabla(i);
+
+                if (idMateria != null) {
+                    inscripcionData.borrarInscripcionMateriaAlumno(idAlumno,
+                                                                    idMateria);
+                    modelo.removeRow(filas[i]);
+                }
+            }
+        }
+    }//GEN-LAST:event_jbAnularActionPerformed
+
 //-----------------------------METODOS-------------------------------------    
-    private void llenarCombo(){
+    private void llenarCombo() {
         Alumno jcItemNoSeleccionado = new Alumno();
         jcItemNoSeleccionado.setIdAlumno(-1);
         jcAlumno.addItem(jcItemNoSeleccionado);
         jcAlumno.setSelectedItem(jcItemNoSeleccionado);
-        
+
         AlumnoData alumnoData = new AlumnoData();
         List<Alumno> alumnos = alumnoData.listarAlumnos();
-        
-        for(Alumno alumno: alumnos){
+
+        for (Alumno alumno : alumnos) {
             jcAlumno.addItem(alumno);
         }
-        
+
     }
-    private void limpiarCampo(){
-        if(jcAlumno != null){
+
+    private void limpiarCampo() {
+        if (jcAlumno != null) {
             jcAlumno.setSelectedIndex(-1);
         }
-        
+
     }
-    
-    private void armarTabla(){
+
+    private void armarTabla() {
         modelo.addColumn("ID");
         modelo.addColumn("Nombre");
         modelo.addColumn("Año");
         jtaMateria.setModel(modelo);
-        
+
     }
-    
-    private void llenarLista(List<Materia> materias){
+
+    private void llenarLista(List<Materia> materias) {
         borrarLista();
         System.out.println("llenarLista()");
-        for(Materia materia: materias){
+        for (Materia materia : materias) {
             System.out.println(materia);
             Vector<Object> renglon = new Vector<>();
             renglon.add(materia.getIdMateria());
             renglon.add(materia.getNombre());
             renglon.add(materia.getAnioMateria());
-            
+
             modelo.addRow(renglon);
         }
         jtaMateria.repaint();
-//        jtaMateria.revalidate();
     }
-    
-    private void borrarLista(){
+
+    private void borrarLista() {
         int filas = modelo.getRowCount() - 1;
         for (int i = filas; i >= 0; i--) {
             modelo.removeRow(i);
         }
         jtaMateria.repaint();
-        
     }
-    
+
+    private Integer getIdTabla(int fila) {
+        Object val = jtaMateria.getValueAt(fila, 0);
+        if (val == null) {
+            return null;
+        }
+        if (val instanceof Integer) {
+            return (Integer) val;
+        }
+        return Integer.parseInt((String) val);
+    }
+
+    private String getNombreTabla(int fila) {
+        Object val = jtaMateria.getValueAt(fila, 1);
+        if (val == null) {
+            return null;
+        }
+        if (val instanceof String) {
+            return (String) val;
+        }
+        return (String) val;
+    }
+
+    private Integer getAnioTabla(int fila) {
+        Object val = jtaMateria.getValueAt(fila, 2);
+        if (val == null) {
+            return null;
+        }
+        if (val instanceof Integer) {
+            return (Integer) val;
+        }
+        return Integer.parseInt((String) val);
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton jbAnular;
-    private javax.swing.JButton jbIncribir;
+    private javax.swing.JButton jbInscribir;
     private javax.swing.JButton jbSalir;
     private javax.swing.JComboBox<Alumno> jcAlumno;
     private javax.swing.JCheckBox jcInscriptas;

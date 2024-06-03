@@ -204,8 +204,8 @@ public class Alumnos extends javax.swing.JInternalFrame {
                 .addGap(59, 59, 59)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jlDocumento)
-                    .addComponent(jtDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jbBuscar))
+                    .addComponent(jbBuscar)
+                    .addComponent(jtDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(32, 32, 32)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jlApellido)
@@ -253,6 +253,7 @@ public class Alumnos extends javax.swing.JInternalFrame {
             
         if (alumno == null){
             JOptionPane.showMessageDialog(null, "No se encuentra el alumno" );
+          
             return;
         }
          jtApellido.setText(alumno.getApellido());
@@ -260,46 +261,54 @@ public class Alumnos extends javax.swing.JInternalFrame {
          if (alumno.isActivo() == true){
              jcActivo.setSelected(isSelected);
          }
-         
          Date date = Date.from(alumno.getFechaNac().atStartOfDay(java.time.ZoneId.systemDefault()).toInstant());
          jdFecha.setDate(date);
     }//GEN-LAST:event_jbBuscarActionPerformed
 
 
     private void jbGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGuardarActionPerformed
-       AlumnoData alumnoData=new AlumnoData();
-        Alumno alu = new Alumno();
+        AlumnoData alumnoData = new AlumnoData();
+        Alumno alu;
         Date fechaSeleccionada = jdFecha.getDate();
-      
-        
-        
 
         if (jtDocumento.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Debe ingresar un numero de documento");
+            JOptionPane.showMessageDialog(null, "Debe ingresar un número de documento");
             return;
         } else if (jtApellido.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Debe ingresar un Apellido");
             return;
         } else if (jtNombre.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Debe ingresar un nombre");
-
+            return;
         } else if (fechaSeleccionada == null) {
             JOptionPane.showMessageDialog(null, "Debe ingresar una fecha");
-        } else {
-           fechaSeleccionada = jdFecha.getDate();
-            LocalDate FechaNacimiento = fechaSeleccionada.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-            Integer dni = Integer.valueOf(jtDocumento.getText());
-            jcActivo.setSelected(isSelected);
+            return;
+        }
 
+        fechaSeleccionada = jdFecha.getDate();
+        LocalDate FechaNacimiento = fechaSeleccionada.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        Integer dni = Integer.valueOf(jtDocumento.getText());
+        boolean activo = jcActivo.isSelected();
+
+        alu = alumnoData.buscarAlumnoPorDni(dni);
+
+        if (alu != null) {
+            
+            alu.setApellido(jtApellido.getText());
+            alu.setNombre(jtNombre.getText());
+            alu.setFechaNac(FechaNacimiento);
+            alu.setActivo(activo);
+            alumnoData.modificarAlumno(alu);
+        } else {
+       
+            alu = new Alumno();
             alu.setDni(dni);
             alu.setApellido(jtApellido.getText());
             alu.setNombre(jtNombre.getText());
             alu.setFechaNac(FechaNacimiento);
-            alu.setActivo(true);
-
+            alu.setActivo(activo);
             alumnoData.guardarAlumno(alu);
         }
-
 
     }//GEN-LAST:event_jbGuardarActionPerformed
 
