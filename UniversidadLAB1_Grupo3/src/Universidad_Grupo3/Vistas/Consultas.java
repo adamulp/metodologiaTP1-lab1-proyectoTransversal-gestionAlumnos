@@ -4,17 +4,28 @@
  */
 package Universidad_Grupo3.Vistas;
 
+import Universidad_Grupo3.AccesoADatos.InscripcionData;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+import Universidad_Grupo3.AccesoADatos.MateriaData;
+import Universidad_Grupo3.Entidades.Alumno;
+import Universidad_Grupo3.Entidades.Materia;
+import java.util.ArrayList;
+import java.util.Vector;
+
 /**
  *
  * @author Hollmann
  */
 public class Consultas extends javax.swing.JInternalFrame {
 
-    /**
-     * Creates new form Consultas
-     */
+    private DefaultTableModel modelo = new DefaultTableModel();
+
     public Consultas() {
         initComponents();
+        armarCabecera();
+        llenarCombo();
+        limpiarCampo();
     }
 
     /**
@@ -45,6 +56,11 @@ public class Consultas extends javax.swing.JInternalFrame {
         jlSeleccione.setText("Seleccione una materia:");
 
         jcMateria.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jcMateria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcMateriaActionPerformed(evt);
+            }
+        });
 
         jtaAlumno.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -61,6 +77,11 @@ public class Consultas extends javax.swing.JInternalFrame {
 
         jbSalir.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jbSalir.setText("Salir");
+        jbSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbSalirActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -113,12 +134,88 @@ public class Consultas extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    //Combobox
+    private void jcMateriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcMateriaActionPerformed
+        // TODO add your handling code here:
+
+        InscripcionData inscripcionData = new InscripcionData();
+        Materia materia = (Materia) jcMateria.getSelectedItem();
+
+        List<Alumno> alumnos = inscripcionData.obtenerAlumnosXMateria(materia.getIdMateria());
+
+        if (alumnos == null) {
+            System.out.println("La lista de alumnos es nula.");
+        } else {
+            System.out.println("La lista de alumnos tiene " + alumnos.size() + " elementos.");
+        }
+        llenarLista(alumnos);
+
+    }//GEN-LAST:event_jcMateriaActionPerformed
+
+    //Boton salir
+    private void jbSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalirActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_jbSalirActionPerformed
+
+    private void llenarCombo() {
+        MateriaData materiaData = new MateriaData();
+
+        List<Materia> materias = materiaData.listarMaterias();
+        if (materias != null) {
+            for (Materia materia : materias) {
+                System.out.println("Materias del combo :"+materia);
+                jcMateria.addItem(materia);
+            }
+        }
+    }
+
+    private void limpiarCampo() {
+        if (jcMateria != null) {
+            jcMateria.setSelectedIndex(-1);
+        }
+    }
+
+    private void armarCabecera() {
+        modelo.addColumn("ID");
+        modelo.addColumn("DNI");
+        modelo.addColumn("Apellido");
+        modelo.addColumn("Nombre");
+        jtaAlumno.setModel(modelo);
+    }
+
+    private void borrarLista() {
+        int filas = modelo.getRowCount() - 1;
+        if (filas > 0) {
+            for (int i = filas; i >= 0; i--) {
+                modelo.removeRow(i);
+            }
+            jtaAlumno.repaint();
+        }
+    }
+
+    private void llenarLista(List<Alumno> alumnos) {
+        borrarLista();
+        if (alumnos != null) {
+            for (Alumno alumno : alumnos) {
+                System.out.println(alumno);
+                Vector<Object> renglon = new Vector<>();
+                renglon.add(alumno.getIdAlumno());
+                renglon.add(alumno.getDni());
+                renglon.add(alumno.getApellido());
+                renglon.add(alumno.getNombre());
+
+                modelo.addRow(renglon);
+            }
+            jtaAlumno.repaint();
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton jbSalir;
-    private javax.swing.JComboBox<String> jcMateria;
+    private javax.swing.JComboBox<Materia> jcMateria;
     private javax.swing.JLabel jlSeleccione;
     private javax.swing.JLabel jlTitulo;
     private javax.swing.JTable jtaAlumno;
