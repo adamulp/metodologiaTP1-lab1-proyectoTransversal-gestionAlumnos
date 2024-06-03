@@ -4,17 +4,27 @@
  */
 package Universidad_Grupo3.Vistas;
 
+import Universidad_Grupo3.AccesoADatos.MateriaData;
+import Universidad_Grupo3.Entidades.Materia;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Hollmann
  */
 public class Materias extends javax.swing.JInternalFrame {
 
+    private MateriaData materiadata;
+
     /**
      * Creates new form Materias
      */
     public Materias() {
         initComponents();
+        materiadata = new MateriaData(); 
+        jbEliminar.setEnabled(false);
+        jbGuardar.setEnabled(false);
+        
     }
 
     /**
@@ -55,12 +65,27 @@ public class Materias extends javax.swing.JInternalFrame {
 
         jcActivo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jcActivo.setText(" Activo.");
+        jcActivo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcActivoActionPerformed(evt);
+            }
+        });
 
         jbNuevo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jbNuevo.setText("Nuevo");
+        jbNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbNuevoActionPerformed(evt);
+            }
+        });
 
         jbEliminar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jbEliminar.setText("Eliminar");
+        jbEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbEliminarActionPerformed(evt);
+            }
+        });
 
         jbGuardar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jbGuardar.setText("Guardar");
@@ -72,9 +97,19 @@ public class Materias extends javax.swing.JInternalFrame {
 
         jbSalir.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jbSalir.setText("Salir");
+        jbSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbSalirActionPerformed(evt);
+            }
+        });
 
         jbBuscar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jbBuscar.setText("Buscar");
+        jbBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbBuscarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -158,10 +193,107 @@ public class Materias extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+     
+    
+    //GUARDAR MATERIA
     private void jbGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGuardarActionPerformed
         // TODO add your handling code here:
+        try {
+            String nombre = jtNombre.getText();
+            int anio = Integer.parseInt(jtAno.getText());
+            boolean activo = jcActivo.isSelected();
+
+            Materia materia = new Materia();
+            materia.setNombre(nombre);
+            materia.setAnioMateria(anio);
+            materia.setActivo(activo);
+
+            materiadata.guardarMateria(materia);
+            jbEliminar.setEnabled(false);
+            
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Los campos nombre y año no pueden estar vacíos");
+        }
+
+        //BUSCAR MATERIA
     }//GEN-LAST:event_jbGuardarActionPerformed
 
+    private void jbBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarActionPerformed
+        // TODO add your handling code here:
+        Materia materia = null;
+        try {
+            Integer id = Integer.valueOf(jtCodigo.getText());
+            materia = materiadata.buscarMateria(id);
+            if (materia == null) {
+                JOptionPane.showMessageDialog(null, "No se encuentra la materia en la base de datos");
+                return;
+            }
+            jtNombre.setText(materia.getNombre());
+            jtAno.setText(String.valueOf(materia.getAnioMateria()));
+            if (materia.isActivo() == true) {
+                jcActivo.setSelected(isSelected);
+            } else {
+                jcActivo.setSelected(false);
+            }
+            
+            jbEliminar.setEnabled(true);
+            jbGuardar.setEnabled(false);
+       
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "El campo Código no debe estar vacío para buscar una materia.");
+        }
+
+        //ELIMINAR MATERIA
+    }//GEN-LAST:event_jbBuscarActionPerformed
+
+    private void jbEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEliminarActionPerformed
+        // TODO add your handling code here:
+       
+        try {
+            int id = Integer.parseInt(jtCodigo.getText());
+            materiadata.eliminarMateria(id);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "El campo Código no debe estar vacío para poder eliminar una materia.");
+        }
+
+
+    }//GEN-LAST:event_jbEliminarActionPerformed
+
+    //BOTON SALIR
+    private void jbSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalirActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_jbSalirActionPerformed
+
+    //BOTON NUEVO
+    private void jbNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbNuevoActionPerformed
+        // TODO add your handling code here:
+        limpiarCampos();
+        jbEliminar.setEnabled(false);
+        jbGuardar.setEnabled(false);
+    }//GEN-LAST:event_jbNuevoActionPerformed
+
+    private void jcActivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcActivoActionPerformed
+        // TODO add your handling code here:
+        if( jtNombre.getText().equals("") && jtAno.getText().equals("")){
+            jbGuardar.setEnabled(false);
+        }else{
+            jbGuardar.setEnabled(true);
+        }
+        
+        
+    }//GEN-LAST:event_jcActivoActionPerformed
+
+    private void limpiarCampos() {
+        jtCodigo.setText("");
+        jtNombre.setText("");
+        jtAno.setText("");
+        jcActivo.setSelected(false);
+
+    }
+    
+    
+  
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;
